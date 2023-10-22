@@ -1,10 +1,10 @@
 package ba.edu.ibu.eventport.core.service;
 
 import ba.edu.ibu.eventport.core.model.User;
-import ba.edu.ibu.eventport.rest.models.dto.UserRequestDTO;
 import org.springframework.stereotype.Service;
 import ba.edu.ibu.eventport.rest.models.dto.UserDTO;
 import ba.edu.ibu.eventport.core.repository.UserRepository;
+import ba.edu.ibu.eventport.rest.models.dto.UserRequestDTO;
 import ba.edu.ibu.eventport.exceptions.repository.ResourceNotFoundException;
 
 

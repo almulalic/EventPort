@@ -1,6 +1,5 @@
 package ba.edu.ibu.eventport.core.repository;
 
-import java.util.List;
 import java.util.Optional;
 
 import ba.edu.ibu.eventport.core.model.User;
