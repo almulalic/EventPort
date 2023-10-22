@@ -1,7 +1,7 @@
 package ba.edu.ibu.eventport.core.model;
 
 public class Ticket {
-  private int id;
+  private String id;
   private int eventId;
   private int userId;
   private String type;
@@ -11,7 +11,7 @@ public class Ticket {
   public Ticket() {
   }
 
-  public Ticket(int id, int eventId, int userId, String type, double price, boolean isRegistered) {
+  public Ticket(String id, int eventId, int userId, String type, double price, boolean isRegistered) {
     this.id = id;
     this.eventId = eventId;
     this.userId = userId;
@@ -20,11 +20,11 @@ public class Ticket {
     this.isRegistered = isRegistered;
   }
 
-  public int getId() {
+  public String getId() {
     return id;
   }
 
-  public void setId(int id) {
+  public void setId(String id) {
     this.id = id;
   }
 
