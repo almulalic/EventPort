@@ -37,8 +37,8 @@ public class UserService {
     return new UserDTO(user.get());
   }
 
-  public UserDTO getUser(String email, String username) {
-    Optional<User> user = userRepository.findByEmailOrUsername(email, username);
+  public UserDTO getUser(String identifier) {
+    Optional<User> user = userRepository.findByEmailOrUsername(identifier, identifier);
 
     if (user.isEmpty()) {
       throw new ResourceNotFoundException("The user with the given ID does not exists.");
