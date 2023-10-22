@@ -36,4 +36,91 @@ public class EventRequestDTO {
     return event;
   }
 
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
+  public Date getDateTime() {
+    return dateTime;
+  }
+
+  public void setDateTime(Date dateTime) {
+    this.dateTime = dateTime;
+  }
+
+  public String getLocation() {
+    return location;
+  }
+
+  public void setLocation(String location) {
+    this.location = location;
+  }
+
+  public String getOrganizer() {
+    return organizer;
+  }
+
+  public void setOrganizer(String organizer) {
+    this.organizer = organizer;
+  }
+
+  public List<Integer> getParticipants() {
+    return participants;
+  }
+
+  public void setParticipants(List<Integer> participants) {
+    this.participants = participants;
+  }
+
+  public String getType() {
+    return type;
+  }
+
+  public void setType(String type) {
+    this.type = type;
+  }
+
+  public EventStatus getStatus() {
+    return status;
+  }
+
+  public void setStatus(EventStatus status) {
+    this.status = status;
+  }
+
+  public int getCapacity() {
+    return capacity;
+  }
+
+  public void setCapacity(int capacity) {
+    this.capacity = capacity;
+  }
+
+  public Date getRegistrationDeadline() {
+    return registrationDeadline;
+  }
+
+  public void setRegistrationDeadline(Date registrationDeadline) {
+    this.registrationDeadline = registrationDeadline;
+  }
+
+  public String getBannerImageURL() {
+    return bannerImageURL;
+  }
+
+  public void setBannerImageURL(String bannerImageURL) {
+    this.bannerImageURL = bannerImageURL;
+  }
 }
