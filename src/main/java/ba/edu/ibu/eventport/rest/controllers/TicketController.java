@@ -4,18 +4,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ba.edu.ibu.eventport.core.service.EventService;
+import ba.edu.ibu.eventport.core.service.TicketService;
 import ba.edu.ibu.eventport.rest.models.dto.EventViewDTO;
 import ba.edu.ibu.eventport.rest.models.dto.EventRequestDTO;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("api/events")
-public class EventController {
-  private final EventService eventService;
+@RequestMapping("api/tickets")
+public class TicketsController {
+  private final TicketService ticketService;
 
-  public EventController(final EventService eventService) {
-    this.eventService = eventService;
+  public EventController(final EventService EventService) {
+    this.eventService = EventService;
   }
 
   @RequestMapping(method = RequestMethod.GET, path = "/")
