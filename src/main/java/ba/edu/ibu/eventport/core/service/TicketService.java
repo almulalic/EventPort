@@ -1,5 +1,6 @@
 package ba.edu.ibu.eventport.core.service;
 
+import org.springframework.stereotype.Service;
 import ba.edu.ibu.eventport.core.model.Ticket;
 import ba.edu.ibu.eventport.rest.models.dto.TicketDTO;
 import ba.edu.ibu.eventport.rest.models.dto.TicketRequestDTO;
@@ -10,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Service
 public class TicketService {
   private TicketRepository TicketRepository;
 

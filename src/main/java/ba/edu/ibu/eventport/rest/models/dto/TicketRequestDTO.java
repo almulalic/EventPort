@@ -1,16 +1,15 @@
 package ba.edu.ibu.eventport.rest.models.dto;
 
-import ba.edu.ibu.eventport.core.model.Event;
 import ba.edu.ibu.eventport.core.model.Ticket;
 
 public class TicketRequestDTO {
-  private int eventId;
-  private int userId;
+  private String eventId;
+  private String userId;
   private String type;
   private double price;
   private boolean isRegistered;
 
-  public TicketRequestDTO(int eventId, int userId, String type, double price, boolean isRegistered) {
+  public TicketRequestDTO(String eventId, String userId, String type, double price, boolean isRegistered) {
     this.eventId = eventId;
     this.userId = userId;
     this.type = type;
@@ -28,19 +27,19 @@ public class TicketRequestDTO {
     return ticket;
   }
 
-  public int getEventId() {
+  public String getEventId() {
     return eventId;
   }
 
-  public void setEventId(int eventId) {
+  public void setEventId(String eventId) {
     this.eventId = eventId;
   }
 
-  public int getUserId() {
+  public String getUserId() {
     return userId;
   }
 
-  public void setUserId(int userId) {
+  public void setUserId(String userId) {
     this.userId = userId;
   }
 

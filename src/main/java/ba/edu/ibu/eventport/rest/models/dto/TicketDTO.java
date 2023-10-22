@@ -4,8 +4,8 @@ import ba.edu.ibu.eventport.core.model.Ticket;
 
 public class TicketDTO {
   private String id;
-  private int eventId;
-  private int userId;
+  private String eventId;
+  private String userId;
   private String type;
   private double price;
   private boolean isRegistered;
@@ -27,19 +27,19 @@ public class TicketDTO {
     this.id = id;
   }
 
-  public int getEventId() {
+  public String getEventId() {
     return eventId;
   }
 
-  public void setEventId(int eventId) {
+  public void setEventId(String eventId) {
     this.eventId = eventId;
   }
 
-  public int getUserId() {
+  public String getUserId() {
     return userId;
   }
 
-  public void setUserId(int userId) {
+  public void setUserId(String userId) {
     this.userId = userId;
   }
 

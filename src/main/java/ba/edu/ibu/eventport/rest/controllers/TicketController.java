@@ -3,61 +3,53 @@ package ba.edu.ibu.eventport.rest.controllers;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ba.edu.ibu.eventport.core.service.EventService;
+import ba.edu.ibu.eventport.rest.models.dto.TicketDTO;
 import ba.edu.ibu.eventport.core.service.TicketService;
-import ba.edu.ibu.eventport.rest.models.dto.EventViewDTO;
-import ba.edu.ibu.eventport.rest.models.dto.EventRequestDTO;
+import ba.edu.ibu.eventport.rest.models.dto.TicketRequestDTO;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("api/tickets")
-public class TicketsController {
+public class TicketController {
   private final TicketService ticketService;
 
-  public EventController(final EventService EventService) {
-    this.eventService = EventService;
+  public TicketController(final TicketService ticketService) {
+    this.ticketService = ticketService;
   }
 
   @RequestMapping(method = RequestMethod.GET, path = "/")
-  public ResponseEntity<List<EventViewDTO>> getEvents() {
-    return ResponseEntity.ok(eventService.getEvents());
-  }
-
-  @RequestMapping(method = RequestMethod.GET, path = "/{organization}")
-  public ResponseEntity<List<EventViewDTO>> getEventByOrganization(
-    @PathVariable String organization
-  ) {
-    return ResponseEntity.ok(eventService.getEventByOrganizerAndAvailable(organization));
+  public ResponseEntity<List<TicketDTO>> getTickets() {
+    return ResponseEntity.ok(ticketService.getTickets());
   }
 
   @RequestMapping(method = RequestMethod.GET, path = "/{id}")
-  public ResponseEntity<EventViewDTO> getEventById(
+  public ResponseEntity<TicketDTO> getTicketById(
     @PathVariable String id
   ) {
-    return ResponseEntity.ok(eventService.getEventById(id));
+    return ResponseEntity.ok(ticketService.getTicketById(id));
   }
 
   @RequestMapping(method = RequestMethod.POST, path = "/register")
-  public ResponseEntity<EventViewDTO> register(
-    @RequestBody EventRequestDTO event
+  public ResponseEntity<TicketDTO> register(
+    @RequestBody TicketRequestDTO ticket
   ) {
-    return ResponseEntity.ok(eventService.addEvent(event));
+    return ResponseEntity.ok(ticketService.addTicket(ticket));
   }
 
   @RequestMapping(method = RequestMethod.PUT, path = "/{id}")
-  public ResponseEntity<EventViewDTO> updateEvent(
+  public ResponseEntity<TicketDTO> updateTicket(
     @PathVariable String id,
-    @RequestBody EventRequestDTO event
+    @RequestBody TicketRequestDTO ticket
   ) {
-    return ResponseEntity.ok(eventService.updateEvent(id, event));
+    return ResponseEntity.ok(ticketService.updateTicket(id, ticket));
   }
 
   @RequestMapping(method = RequestMethod.DELETE, path = "/{id}")
-  public ResponseEntity<Void> deleteEvent(
+  public ResponseEntity<Void> deleteTicket(
     @PathVariable String id
   ) {
-    eventService.deleteEvent(id);
+    ticketService.deleteTicket(id);
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
 }
