@@ -1,55 +1,57 @@
-package ba.edu.ibu.eventport.core.model;
+package ba.edu.ibu.eventport.rest.models.dto;
 
-import org.springframework.data.annotation.Id;
+import ba.edu.ibu.eventport.core.model.Event;
 import ba.edu.ibu.eventport.core.model.enums.EventStatus;
 
 import java.util.Date;
-import java.util.List;
 
-public class Event {
-  @Id
+public class EventViewDTO {
   private String id;
   private String name;
   private String description;
+  private String bannerImageURL;
   private Date dateTime;
   private String location;
   private String organizer;
-  private List<Integer> participants;
   private String type;
   private EventStatus status;
-  private int capacity;
   private Date registrationDeadline;
-  private String bannerImageURL;
 
-  public Event() {
-  }
-
-  public Event(
+  public EventViewDTO(
     String id,
     String name,
     String description,
+    String bannerImageURL,
     Date dateTime,
     String location,
     String organizer,
-    List<Integer> participants,
     String type,
     EventStatus status,
-    int capacity,
-    Date registrationDeadline,
-    String bannerImageURL
+    Date registrationDeadline
   ) {
     this.id = id;
     this.name = name;
     this.description = description;
+    this.bannerImageURL = bannerImageURL;
     this.dateTime = dateTime;
     this.location = location;
     this.organizer = organizer;
-    this.participants = participants;
     this.type = type;
     this.status = status;
-    this.capacity = capacity;
     this.registrationDeadline = registrationDeadline;
-    this.bannerImageURL = bannerImageURL;
+  }
+
+  public EventViewDTO(Event event) {
+    this.id = event.getId();
+    this.name = event.getName();
+    this.description = event.getDescription();
+    this.bannerImageURL = event.getBannerImageURL();
+    this.dateTime = event.getDateTime();
+    this.location = event.getLocation();
+    this.organizer = event.getOrganizer();
+    this.type = event.getType();
+    this.status = event.getStatus();
+    this.registrationDeadline = event.getRegistrationDeadline();
   }
 
   public String getId() {
@@ -76,6 +78,14 @@ public class Event {
     this.description = description;
   }
 
+  public String getBannerImageURL() {
+    return bannerImageURL;
+  }
+
+  public void setBannerImageURL(String bannerImageURL) {
+    this.bannerImageURL = bannerImageURL;
+  }
+
   public Date getDateTime() {
     return dateTime;
   }
@@ -100,14 +110,6 @@ public class Event {
     this.organizer = organizer;
   }
 
-  public List<Integer> getParticipants() {
-    return participants;
-  }
-
-  public void setParticipants(List<Integer> participants) {
-    this.participants = participants;
-  }
-
   public String getType() {
     return type;
   }
@@ -124,27 +126,11 @@ public class Event {
     this.status = status;
   }
 
-  public int getCapacity() {
-    return capacity;
-  }
-
-  public void setCapacity(int capacity) {
-    this.capacity = capacity;
-  }
-
   public Date getRegistrationDeadline() {
     return registrationDeadline;
   }
 
   public void setRegistrationDeadline(Date registrationDeadline) {
     this.registrationDeadline = registrationDeadline;
-  }
-
-  public String getBannerImageURL() {
-    return bannerImageURL;
-  }
-
-  public void setBannerImageURL(String bannerImageURL) {
-    this.bannerImageURL = bannerImageURL;
   }
 }

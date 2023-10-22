@@ -3,7 +3,6 @@ package ba.edu.ibu.eventport.rest.models.dto;
 import ba.edu.ibu.eventport.core.model.User;
 import ba.edu.ibu.eventport.core.model.enums.AuthType;
 import ba.edu.ibu.eventport.core.model.enums.UserType;
-import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
@@ -34,8 +33,10 @@ public class UserRequestDTO {
   public User toEntity() {
     User user = new User();
     user.setUserType(userType);
+    user.setAuthType(authType);
     user.setFirstName(firstName);
     user.setLastName(lastName);
+    user.setOrganization(organization);
     user.setEmail(email);
     user.setUsername(username);
     user.setPassword(password);
