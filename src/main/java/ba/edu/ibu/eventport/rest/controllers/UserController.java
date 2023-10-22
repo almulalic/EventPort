@@ -30,7 +30,7 @@ public class UserController {
     return ResponseEntity.ok(userService.getUserById(id));
   }
 
-  @RequestMapping(method = RequestMethod.GET, path = "/{identifier}")
+  @RequestMapping(method = RequestMethod.GET, path = "/identifier/{identifier}")
   public ResponseEntity<UserDTO> getUser(
     @PathVariable String identifier
   ) {

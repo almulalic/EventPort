@@ -23,7 +23,7 @@ public class EventController {
     return ResponseEntity.ok(eventService.getEvents());
   }
 
-  @RequestMapping(method = RequestMethod.GET, path = "/{organization}")
+  @RequestMapping(method = RequestMethod.GET, path = "organization/{organization}")
   public ResponseEntity<List<EventViewDTO>> getEventByOrganization(
     @PathVariable String organization
   ) {
