@@ -1,13 +1,13 @@
-package com.ba.edu.ibu.webengineeringproject;
+package ba.edu.ibu.eventport;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class WebEngineeringProjectApplication {
+public class EventPortApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(WebEngineeringProjectApplication.class, args);
+        SpringApplication.run(EventPortApplication.class, args);
     }
 
 }
