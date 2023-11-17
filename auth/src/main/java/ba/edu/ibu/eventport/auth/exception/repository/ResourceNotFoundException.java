@@ -1,7 +1,7 @@
-package ba.edu.ibu.eventport.exceptions.repository;
+package ba.edu.ibu.eventport.auth.exception.repository;
 
 import org.springframework.http.HttpStatus;
-import ba.edu.ibu.eventport.exceptions.GeneralException;
+import ba.edu.ibu.eventport.auth.exception.GeneralException;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(value = HttpStatus.NOT_FOUND)

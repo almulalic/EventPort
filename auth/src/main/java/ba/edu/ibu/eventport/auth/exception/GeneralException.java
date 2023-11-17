@@ -1,4 +1,4 @@
-package ba.edu.ibu.eventport.exceptions;
+package ba.edu.ibu.eventport.auth.exception;
 
 import org.springframework.http.HttpStatus;
 
