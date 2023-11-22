@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 @OpenAPIDefinition(
   info = @Info(
     title = "${configuration.swagger.app}",
-    version = "1.0.0",
+    version = "${configuration.swagger.version}",
     description = "${configuration.swagger.description}",
     contact = @Contact(name = "${configuration.swagger.developer}", email = "${configuration.swagger.email}")
   ),

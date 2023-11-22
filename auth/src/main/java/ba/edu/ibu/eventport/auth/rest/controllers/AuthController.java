@@ -1,7 +1,11 @@
 package ba.edu.ibu.eventport.auth.rest.controllers;
 
+import ba.edu.ibu.eventport.auth.core.model.User;
 import ba.edu.ibu.eventport.auth.core.service.AuthService;
-import ba.edu.ibu.eventport.auth.rest.models.dto.UserRequestDTO;
+import ba.edu.ibu.eventport.auth.rest.models.dto.CreateUserDTO;
+import ba.edu.ibu.eventport.auth.rest.models.dto.GenerateTokenDTO;
+import ba.edu.ibu.eventport.auth.rest.models.dto.TokenResponseDTO;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,17 +22,20 @@ public class AuthController {
   }
 
   @RequestMapping(method = RequestMethod.POST, path = "/register")
-  public ResponseEntity<UserRequestDTO> register(
-    @RequestBody UserRequestDTO dto
+  public ResponseEntity<User> createUser(
+    @Valid
+    @RequestBody
+    CreateUserDTO dto
   ) {
-    return ResponseEntity.ok(this.authService.register(dto));
+    return ResponseEntity.ok(this.authService.createUser(dto));
   }
 
   @RequestMapping(method = RequestMethod.POST, path = "/token/generate")
-  public ResponseEntity<String> generateToken(
-    @RequestBody UserRequestDTO dto
+  public ResponseEntity<TokenResponseDTO> generateToken(
+    @Valid
+    @RequestBody
+    GenerateTokenDTO dto
   ) {
-    return ResponseEntity.ok(this.authService.signIn(dto));
+    return ResponseEntity.ok(this.authService.generateToken(dto));
   }
-
 }

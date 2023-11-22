@@ -35,20 +35,18 @@ public class SecurityConfiguration {
 
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-    http.csrf(AbstractHttpConfigurer::disable)
-      .authorizeHttpRequests(request -> request
-                                          .requestMatchers(HttpMethod.GET, "/api/register")
-                                          .permitAll()
-                                          .requestMatchers("/api/books/**")
-                                          .authenticated()
-                                          .requestMatchers("/api/users/**")
-                                          .authenticated()
-                                          .anyRequest()
-                                          .permitAll())
-      .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-      .authenticationProvider(authenticationProvider())
-      .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-    return http.build();
+    return http.csrf(AbstractHttpConfigurer::disable)
+             .authorizeHttpRequests(request -> request
+                                                 .requestMatchers(HttpMethod.GET, "/api/register")
+                                                 .permitAll()
+                                                 .requestMatchers("/api/token/**")
+                                                 .authenticated()
+                                                 .anyRequest()
+                                                 .permitAll())
+             .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+             .authenticationProvider(authenticationProvider())
+             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+             .build();
   }
 
   @Bean
