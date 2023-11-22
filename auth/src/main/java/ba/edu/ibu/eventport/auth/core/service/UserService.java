@@ -1,5 +1,6 @@
 package ba.edu.ibu.eventport.auth.core.service;
 
+import ba.edu.ibu.eventport.auth.exception.repository.UserNotFoundException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -7,8 +8,7 @@ import org.springframework.stereotype.Service;
 import ba.edu.ibu.eventport.auth.core.model.User;
 import ba.edu.ibu.eventport.auth.rest.models.dto.UserDTO;
 import ba.edu.ibu.eventport.auth.core.repository.UserRepository;
-import ba.edu.ibu.eventport.auth.rest.models.dto.UserRequestDTO;
-import ba.edu.ibu.eventport.auth.exception.repository.ResourceNotFoundException;
+import ba.edu.ibu.eventport.auth.rest.models.dto.CreateUserDTO;
 
 import java.util.List;
 import java.util.Optional;
@@ -35,7 +35,7 @@ public class UserService {
     Optional<User> user = userRepository.findById(id);
 
     if (user.isEmpty()) {
-      throw new ResourceNotFoundException("The user with the given ID does not exists.");
+      throw new UserNotFoundException("The user with the given ID does not exists.");
     }
 
     return new UserDTO(user.get());
@@ -45,22 +45,31 @@ public class UserService {
     Optional<User> user = userRepository.findByUsernameOrEmail(identifier, identifier);
 
     if (user.isEmpty()) {
-      throw new ResourceNotFoundException("The user with the given ID does not exists.");
+      throw new UserNotFoundException("The user with the given ID does not exists.");
     }
 
     return user.get();
   }
 
-  public UserDTO addUser(UserRequestDTO payload) {
-    User user = userRepository.save(payload.toEntity());
-    return new UserDTO(user);
+  public User isUniqueUser(String username, String email) {
+    Optional<User> user = userRepository.findByUsernameOrEmail(username, email);
+
+    if (user.isEmpty()) {
+      throw new UserNotFoundException("The user with the given ID does not exists.");
+    }
+
+    return user.get();
   }
 
-  public UserDTO updateUser(String id, UserRequestDTO payload) {
+  public UserDTO addUser(CreateUserDTO payload) {
+    return new UserDTO(userRepository.save(payload.toEntity()));
+  }
+
+  public UserDTO updateUser(String id, CreateUserDTO payload) {
     Optional<User> user = userRepository.findById(id);
 
     if (user.isEmpty()) {
-      throw new ResourceNotFoundException("The user with the given ID does not exists.");
+      throw new UserNotFoundException("The user with the given ID does not exists.");
     }
 
     User updatedUser = payload.toEntity();
