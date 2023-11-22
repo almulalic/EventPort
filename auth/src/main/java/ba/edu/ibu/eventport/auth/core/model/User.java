@@ -1,6 +1,9 @@
 package ba.edu.ibu.eventport.auth.core.model;
 
 import ba.edu.ibu.eventport.auth.core.model.enums.UserType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.mongodb.lang.NonNull;
+import jakarta.validation.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
 import ba.edu.ibu.eventport.auth.core.model.enums.AuthType;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -16,15 +19,17 @@ import java.util.List;
 public class User implements UserDetails {
   @Id
   private String id;
+  @NonNull
   private UserType userType;
   private AuthType authType;
   private String firstName;
   private String lastName;
-  private String organization;
   private String email;
   private String username;
+  @NotEmpty
+  @JsonIgnore
   private String password;
-  private Date creationDate = new Date();
+  private Date creationDate;
 
   public User() {
   }
@@ -35,7 +40,6 @@ public class User implements UserDetails {
     AuthType authType,
     String firstName,
     String lastName,
-    String organization,
     String email,
     String username,
     String password,
@@ -46,7 +50,6 @@ public class User implements UserDetails {
     this.authType = authType;
     this.firstName = firstName;
     this.lastName = lastName;
-    this.organization = organization;
     this.email = email;
     this.username = username;
     this.password = password;
@@ -118,14 +121,6 @@ public class User implements UserDetails {
     this.lastName = lastName;
   }
 
-  public String getOrganization() {
-    return organization;
-  }
-
-  public void setOrganization(String organization) {
-    this.organization = organization;
-  }
-
   public String getEmail() {
     return email;
   }
@@ -141,7 +136,6 @@ public class User implements UserDetails {
   public void setUsername(String username) {
     this.username = username;
   }
-
 
   public String getPassword() {
     return password;
