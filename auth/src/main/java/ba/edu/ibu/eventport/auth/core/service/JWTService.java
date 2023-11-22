@@ -18,14 +18,15 @@ import java.util.function.Function;
 public class JWTService {
   @Value("${security.jwt.secret}")
   private String jwtSigningKey;
+  @Value("security.jwt.expirationSeconds")
+  private long expirationSeconds;
 
   public String extractUserName(String token) {
     return extractClaim(token, Claims::getSubject);
   }
 
   private SecretKey getSigningKey() {
-    byte[] keyBytes = Decoders.BASE64.decode(jwtSigningKey);
-    return Keys.hmacShaKeyFor(keyBytes);
+    return Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSigningKey));
   }
 
   public String generateToken(UserDetails userDetails) {
@@ -37,14 +38,13 @@ public class JWTService {
              .claims(extraClaims)
              .subject(userDetails.getUsername())
              .issuedAt(new Date(System.currentTimeMillis()))
-             .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
+             .expiration(new Date(System.currentTimeMillis() + 1000 * expirationSeconds))
              .signWith(getSigningKey())
              .compact();
   }
 
   public boolean isTokenValid(String token, UserDetails userDetails) {
-    final String userName = extractUserName(token);
-    return (userName.equals(userDetails.getUsername())) && !isTokenExpired(token);
+    return (extractUserName(token).equals(userDetails.getUsername())) && !isTokenExpired(token);
   }
 
   private boolean isTokenExpired(String token) {
