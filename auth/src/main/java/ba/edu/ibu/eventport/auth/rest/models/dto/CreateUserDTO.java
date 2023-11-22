@@ -2,30 +2,33 @@ package ba.edu.ibu.eventport.auth.rest.models.dto;
 
 
 import ba.edu.ibu.eventport.auth.core.model.User;
-import ba.edu.ibu.eventport.auth.core.model.enums.AuthType;
 import ba.edu.ibu.eventport.auth.core.model.enums.UserType;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 
 import java.util.Date;
 
-public class UserRequestDTO {
-  private UserType userType;
-  private AuthType authType;
+@JsonIgnoreProperties(ignoreUnknown = false)
+public class CreateUserDTO {
+  @NotBlank(message = "First Name can not be empty")
   private String firstName;
+  @NotBlank(message = "Last mame can not be empty!")
   private String lastName;
-  private String organization;
+  @Email
+  @NotBlank(message = "Email can not be empty!")
   private String email;
+  @NotBlank(message = "Username can not be empty!")
   private String username;
+  @NotBlank(message = "Password can not be empty!")
   private String password;
 
-  public UserRequestDTO() {
+  public CreateUserDTO() {
   }
 
-  public UserRequestDTO(User user) {
-    this.userType = user.getUserType();
-    this.authType = user.getAuthType();
+  public CreateUserDTO(User user) {
     this.firstName = user.getFirstName();
     this.lastName = user.getLastName();
-    this.organization = user.getOrganization();
     this.email = user.getEmail();
     this.username = user.getUsername();
     this.password = user.getPassword();
@@ -33,24 +36,13 @@ public class UserRequestDTO {
 
   public User toEntity() {
     User user = new User();
-    user.setUserType(userType);
-    user.setAuthType(authType);
     user.setFirstName(firstName);
     user.setLastName(lastName);
-    user.setOrganization(organization);
     user.setEmail(email);
     user.setUsername(username);
     user.setPassword(password);
     user.setCreationDate(new Date());
     return user;
-  }
-
-  public UserType getUserType() {
-    return userType;
-  }
-
-  public void setUserType(UserType userType) {
-    this.userType = userType;
   }
 
   public String getFirstName() {
