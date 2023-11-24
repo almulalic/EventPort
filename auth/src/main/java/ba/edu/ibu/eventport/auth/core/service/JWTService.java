@@ -18,7 +18,7 @@ import java.util.function.Function;
 public class JWTService {
   @Value("${security.jwt.secret}")
   private String jwtSigningKey;
-  @Value("security.jwt.expirationSeconds")
+  @Value("${security.jwt.expirationSeconds}")
   private long expirationSeconds;
 
   public String extractUserName(String token) {
