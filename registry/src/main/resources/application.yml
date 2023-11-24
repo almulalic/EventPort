@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: api-registry
+
+server:
+  port: 8761
+
+eureka:
+  instance:
+    hostname: localhost
+    lease-renewal-interval-in-seconds: 0
+  client:
+    fetch-registry: false
+    register-with-eureka: false
