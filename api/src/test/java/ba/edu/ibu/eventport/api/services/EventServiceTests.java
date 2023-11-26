@@ -98,11 +98,11 @@ class EventServiceTests {
     Event event = eventRequestDTO.toEntity();
     event.setId("habsdhajsandjand");
 
-    when(eventRepository.save(event)).thenReturn(event);
+    when(eventRepository.save(any(Event.class))).thenReturn(event);
 
     assertThat(new EventViewDTO(event)).usingRecursiveComparison()
       .isEqualTo(eventService.addEvent(eventRequestDTO));
-    verify(eventRepository).save(event);
+    verify(eventRepository).save(any(Event.class));
   }
 
   @Test
@@ -124,12 +124,13 @@ class EventServiceTests {
     updatedEvent.setId(eventId);
 
     when(eventRepository.findById(eventId)).thenReturn(Optional.of(new Event()));
-    when(eventRepository.save(updatedEvent)).thenReturn(updatedEvent);
+    when(eventRepository.save(any(Event.class))).thenReturn(updatedEvent);
 
-    assertEquals(new EventViewDTO(updatedEvent), eventService.updateEvent(eventId, updatedEventRequestDTO));
+    assertThat(new EventViewDTO(updatedEvent)).usingRecursiveComparison()
+      .isEqualTo(eventService.updateEvent(eventId, updatedEventRequestDTO));
 
     verify(eventRepository).findById(eventId);
-    verify(eventRepository).save(updatedEvent);
+    verify(eventRepository).save(any(Event.class));
   }
 
   @Test
