@@ -1,7 +1,6 @@
 package ba.edu.ibu.eventport.api.rest.configurations;
 
 import ba.edu.ibu.eventport.api.rest.filters.JwtAuthenticationFilter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;

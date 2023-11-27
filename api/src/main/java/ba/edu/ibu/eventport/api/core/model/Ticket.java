@@ -1,34 +1,20 @@
 package ba.edu.ibu.eventport.api.core.model;
 
+import lombok.Data;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+@Data
+@Document
 @NoArgsConstructor
 @AllArgsConstructor
-public class Ticket {
-  @Getter
-  @Setter
+@Builder(builderClassName = "Builder", builderMethodName = "Builder", setterPrefix = "with") public class Ticket {
   private String id;
-
-  @Getter
-  @Setter
   private String eventId;
-
-  @Getter
-  @Setter
   private String userId;
-
-  @Getter
-  @Setter
   private String type;
-
-  @Getter
-  @Setter
   private double price;
-
-  @Getter
-  @Setter
   private boolean isRegistered;
 }
