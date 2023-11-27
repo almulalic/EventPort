@@ -4,6 +4,7 @@ import ba.edu.ibu.eventport.api.core.repository.TicketRepository;
 import ba.edu.ibu.eventport.api.exceptions.repository.ResourceNotFoundException;
 import ba.edu.ibu.eventport.api.rest.models.dto.TicketDTO;
 import ba.edu.ibu.eventport.api.rest.models.dto.TicketRequestDTO;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ba.edu.ibu.eventport.api.core.model.Ticket;
 
@@ -12,12 +13,9 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class TicketService {
   private final TicketRepository ticketRepository;
-
-  public TicketService(TicketRepository TicketRepository) {
-    this.ticketRepository = TicketRepository;
-  }
 
   public List<TicketDTO> getTickets() {
     List<Ticket> tickets = ticketRepository.findAll();

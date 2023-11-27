@@ -1,29 +1,35 @@
 package ba.edu.ibu.eventport.api.core.service;
 
 import ba.edu.ibu.eventport.api.core.model.Event;
+import ba.edu.ibu.eventport.api.core.model.enums.EventStatus;
 import ba.edu.ibu.eventport.api.core.repository.EventRepository;
+import ba.edu.ibu.eventport.api.core.repository.generics.filtering.models.Filtering;
 import ba.edu.ibu.eventport.api.exceptions.repository.ResourceNotFoundException;
 import ba.edu.ibu.eventport.api.rest.models.dto.EventRequestDTO;
 import ba.edu.ibu.eventport.api.rest.models.dto.EventViewDTO;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+
 @Service
+@RequiredArgsConstructor
 public class EventService {
 
   private final EventRepository eventRepository;
 
-  public EventService(EventRepository eventRepository) {
-    this.eventRepository = eventRepository;
-  }
+  public Page<Event> getEvents(Optional<String> type, Optional<EventStatus> status, Pageable pageable) {
+    Filtering filtering = new Filtering();
 
-  public List<EventViewDTO> getEvents() {
-    List<Event> events = eventRepository.findAll();
+    type.ifPresent(s -> filtering.addFilter("type", Filtering.Operator.eq, s));
+    status.ifPresent(eventStatus -> filtering.addFilter("status", Filtering.Operator.eq, eventStatus));
 
-    return events.stream().map(EventViewDTO::new).collect(Collectors.toList());
+    return eventRepository.findAllWithFilter(Event.class, filtering, pageable);
   }
 
   public EventViewDTO getEventById(String id) {
@@ -36,8 +42,12 @@ public class EventService {
     return new EventViewDTO(event.get());
   }
 
-  public List<EventViewDTO> getEventByOrganizerAndAvailable(String identifier) {
-    List<Event> events = eventRepository.findAllByOrganizerAndAvailable(identifier, identifier);
+  public List<EventViewDTO> getEventsByCategory(String category) {
+    List<Event> events = eventRepository.findByCategory(category);
+
+    if (events.size() == 0) {
+      throw new ResourceNotFoundException("The event with the given category does not exists.");
+    }
 
     return events.stream().map(EventViewDTO::new).collect(Collectors.toList());
   }
