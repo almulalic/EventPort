@@ -1,4 +1,4 @@
-package ba.edu.ibu.eventport.api.rest.configurations;
+package ba.edu.ibu.eventport.api.rest.configurations.security;
 
 import ba.edu.ibu.eventport.api.rest.models.auth.JwtAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationProvider;

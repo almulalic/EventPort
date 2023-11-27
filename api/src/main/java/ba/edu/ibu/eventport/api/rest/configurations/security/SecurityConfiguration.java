@@ -1,5 +1,6 @@
-package ba.edu.ibu.eventport.api.rest.configurations;
+package ba.edu.ibu.eventport.api.rest.configurations.security;
 
+import ba.edu.ibu.eventport.api.rest.configurations.security.JwtAuthenticationProvider;
 import ba.edu.ibu.eventport.api.rest.filters.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
