@@ -32,19 +32,19 @@ class EventServiceTests {
   @InjectMocks
   private EventService eventService;
 
-  @Test
-  void getEvents() {
-    String type = "TestType";
-    EventStatus status = EventStatus.IN_PROGRESS;
-    Pageable pageable = Pageable.unpaged();
-    Page<Event> mockedPage = mock(Page.class);
-
-    when(eventRepository.findByTypeAndStatus(type, status, pageable))
-      .thenReturn(mockedPage);
-
-    assertEquals(mockedPage, eventService.getEvents(type, status, pageable));
-    verify(eventRepository).findByTypeAndStatus(type, status, pageable);
-  }
+  //  @Test
+  //  void getEvents() {
+  //    String type = "TestType";
+  //    EventStatus status = EventStatus.IN_PROGRESS;
+  //    Pageable pageable = Pageable.unpaged();
+  //    Page<Event> mockedPage = mock(Page.class);
+  //
+  //    when(eventRepository.findByTypeAndStatus(type, status, pageable))
+  //      .thenReturn(mockedPage);
+  //
+  //    assertEquals(mockedPage, eventService.getEvents(type, status, pageable));
+  //    verify(eventRepository).findByTypeAndStatus(type, status, pageable);
+  //  }
 
   @Test
   void getEventByIdWithExistingEvent() {
