@@ -1,9 +1,7 @@
-import MainLayout from "./containers/mainLayout/MainLayout";
+import MainLayout from "./containers/MainLayout/MainLayout";
 
 function App() {
-  return (
-    <MainLayout/>
-  );
+	return <MainLayout />;
 }
 
 export default App;

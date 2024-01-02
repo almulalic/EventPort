@@ -1,8 +1,7 @@
 .LandingFilter {
-	display: none;
 	position: absolute;
 	width: 100%;
-	height: 720px;
+	height: 560px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -16,9 +15,28 @@
 	&-Search {
 		font-size: 1.5rem;
 		height: 3.2rem;
+		background-color: rgb(22, 22, 22);
+		border-color: rgb(22, 22, 22);
+		color: white;
+
+		input {
+			background-color: rgb(22, 22, 22);
+			color: white;
+
+			&::placeholder {
+				color: rgb(255, 255, 255, 0.4);
+			}
+		}
+
+		&:hover,
+		&:focus,
+		&:focus-within,
+		&:active {
+			border-color: rgb(255, 255, 255, 0.4);
+		}
 
 		.ant-input-prefix {
-			margin-right: 0px;
+			margin-right: 10px;
 			width: 3rem;
 			display: flex;
 			justify-content: center;
