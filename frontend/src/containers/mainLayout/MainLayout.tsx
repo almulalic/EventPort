@@ -1,36 +1,25 @@
-import { ConfigProvider, Layout, Menu } from "antd";
-import EventSlideshow from "../../components/EventSlideshow/EventSlideshow";
-import { EventSection } from "../../components/EventSection/EventSection";
-import { HowItWorks } from "../../components/HowItWorks/HowItWorks";
+import { Layout } from "antd";
 import Navbar from "../Navbar/Navbar";
+import { About } from "../About/About";
+import Footer from "../Footer/Footer";
+import EventsInFocus from "../EventsInFocus/EventsInFocus";
+import EventSlideshow from "../EventSlideshow/EventSlideshow";
 
 import "./MainLayout.scss";
-import EventsInFocus from "../EventsInFocus/EventsInFocus";
 
-const { Content, Footer } = Layout;
+const { Content } = Layout;
 
 const MainLayout: React.FC = () => {
 	return (
-		<ConfigProvider
-			theme={{
-				components: {
-					Layout: {
-						headerHeight: 40,
-						headerPadding: "2rem 3.5rem",
-					},
-				},
-			}}
-		>
-			<Layout className="MainLayout">
-				<Navbar />
-				<Content className="MainLayout-Content">
-					<EventSlideshow />
-					<EventsInFocus />
-					<HowItWorks />
-				</Content>
-				<Footer style={{ textAlign: "center" }}>Ant Design ©2023 Created by Ant UED</Footer>
-			</Layout>
-		</ConfigProvider>
+		<Layout className="MainLayout">
+			<Navbar />
+			<Content className="MainLayout-Content">
+				<EventSlideshow />
+				<EventsInFocus />
+				<About />
+			</Content>
+			<Footer />
+		</Layout>
 	);
 };
 
