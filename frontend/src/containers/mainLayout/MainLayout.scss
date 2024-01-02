@@ -1,9 +1,9 @@
 .MainLayout {
-	background-color: #023059;
+	font-family: "Exo 2", sans-serif;
+	background-color: rgb(22, 22, 22);
 
 	&-Header {
 		position: fixed;
-		background-color: rgba(0, 0, 0, 0);
 		z-index: 5;
 		width: 100%;
 
@@ -21,7 +21,6 @@
 
 		ul {
 			font-size: 0.9rem;
-			background: rgba(0, 0, 0, 0);
 
 			a {
 				color: #fff;
@@ -33,7 +32,12 @@
 				position: relative;
 			}
 
-			li:hover {
+			li {
+				transition: border-color 0.3s, background 0.3s;
+			}
+
+			.ant-menu-item-selected {
+				background-color: transparent !important;
 			}
 
 			a:after {
