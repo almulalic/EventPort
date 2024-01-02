@@ -105,8 +105,8 @@ export const LandingFilter = () => {
 						/>
 					</Flex>
 
-					<Flex gap="middle" justify="center" align="start" style={{ width: "100%" }}>
-						<Button type="primary" shape="default" size="large">
+					<Flex className="LandingFilter-SearchButtonContainer" gap="middle" justify="center" align="start">
+						<Button className="LandingFilter-SearchButton" type="primary" shape="default">
 							Search
 						</Button>
 					</Flex>
