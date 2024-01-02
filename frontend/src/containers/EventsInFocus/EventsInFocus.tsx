@@ -70,20 +70,39 @@ const events = [
 export default function EventsInFocus() {
 	const eventsInFocusRef: RefObject<HTMLDivElement> = useRef(null);
 
+	function getStep(direction: number) {
+		const fallback = 400 * direction;
+
+		if (eventsInFocusRef.current) {
+			let element: Element = eventsInFocusRef.current.getElementsByClassName("event-card")[0];
+
+			return element ? element.clientWidth * direction : fallback;
+		} else {
+			return fallback;
+		}
+	}
+
 	function onNext() {
 		if (eventsInFocusRef.current) {
-			eventsInFocusRef.current.scrollLeft += 100;
+			console.log(getStep(1));
+			eventsInFocusRef.current.scrollTo({
+				left: eventsInFocusRef.current.scrollLeft + getStep(1),
+				behavior: "smooth",
+			});
 		}
 	}
 
 	function onPrevious() {
 		if (eventsInFocusRef.current) {
-			eventsInFocusRef.current.scrollLeft -= 100;
+			eventsInFocusRef.current.scrollTo({
+				left: eventsInFocusRef.current.scrollLeft + getStep(-1),
+				behavior: "smooth",
+			});
 		}
 	}
 
 	return (
-		<div id="events-in-focus" ref={eventsInFocusRef}>
+		<div id="events-in-focus" className="section">
 			<div className="header">
 				<h1>Events In Focus</h1>
 				<div className="navigation">
@@ -91,7 +110,7 @@ export default function EventsInFocus() {
 					<ArrowRightOutlined className="navigation-button" onClick={onNext} />
 				</div>
 			</div>
-			<div className="events">
+			<div className="events" ref={eventsInFocusRef}>
 				{events.map((x, i) => (
 					<EventCard key={i} backgroundUrl={x.backgroundUrl} title={x.title} price={x.price} likeCount={x.likeCount} />
 				))}
