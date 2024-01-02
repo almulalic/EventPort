@@ -1,28 +1,63 @@
-import dayjs from "dayjs";
-import Search from "antd/es/input/Search";
-import { RangePickerProps } from "antd/es/date-picker";
-import { Card, Cascader, DatePicker, DatePickerProps, Flex, Segmented } from "antd";
+import { Card, DatePicker, Flex } from "antd";
 
 import "./EventSection.scss";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import { FieldTimeOutlined } from "@ant-design/icons";
 
 const { RangePicker } = DatePicker;
-const DATE_TIME_FORMAT = "YYYY-MM-DD HH";
 
-interface Option {
-	value: string | number;
-	label: string;
-	children?: Option[];
-	disableCheckbox?: boolean;
+export interface SectionContent {
+	heading: string;
+	description: string;
+	icon: ReactNode;
 }
 
+const timeBasedSections = [
+	{
+		heading: "This week",
+		description: "Events this week",
+		icon: <FieldTimeOutlined style={{ fontSize: "72px" }} />,
+	},
+	{
+		heading: "This month",
+		description: "Events this week",
+		icon: <FieldTimeOutlined style={{ fontSize: "72px" }} />,
+	},
+	{
+		heading: "Today",
+		description: "Events this week",
+		icon: <FieldTimeOutlined style={{ fontSize: "72px" }} />,
+	},
+];
+
+const categorySections = [
+	{
+		heading: "Events",
+		description: "Parties, Exibitions,...",
+		icon: <FieldTimeOutlined style={{ fontSize: "72px" }} />,
+	},
+	{
+		heading: "Theater",
+		description: "Comedy, Opera, Drama,...",
+		icon: <FieldTimeOutlined style={{ fontSize: "72px" }} />,
+	},
+	{
+		heading: "Cinema",
+		description: "Action, Comedy, Family,...",
+		icon: <FieldTimeOutlined style={{ fontSize: "72px" }} />,
+	},
+];
+
 export const EventSection = () => {
-	const renderCard = (id: string) => {
+	const renderCard = (data: SectionContent, id: string) => {
 		return (
 			<Card id={id} className="EventSection-Card">
 				<Flex gap="middle" justify="flex-start" align="center">
 					<FieldTimeOutlined style={{ fontSize: "72px" }} />
+					<Flex vertical align="start">
+						<span className="EventSection-Card-Heading">{data.heading}</span>
+						<span className="EventSection-Card-Description">{data.description}</span>
+					</Flex>
 				</Flex>
 			</Card>
 		);
@@ -32,10 +67,10 @@ export const EventSection = () => {
 		<div className="EventSection">
 			<Flex gap="middle" justify="center" align="start" className="EventSection-Flex">
 				<Flex vertical gap="middle" justify="center" align="start">
-					{[0, 1, 2].map((x) => renderCard(x.toFixed()))}
+					{timeBasedSections.map((x, i) => renderCard(x, i.toFixed()))}
 				</Flex>
 				<Flex vertical gap="middle" justify="center" align="start">
-					{[3, 4, 5].map((x) => renderCard(x.toFixed()))}
+					{categorySections.map((x, i) => renderCard(x, i.toFixed()))}
 				</Flex>
 			</Flex>
 		</div>

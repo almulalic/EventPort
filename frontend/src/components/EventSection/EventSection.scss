@@ -1,5 +1,6 @@
 .EventSection {
 	padding: 3rem;
+	height: 600px;
 
 	&-Flex {
 		position: relative;
@@ -7,7 +8,24 @@
 	}
 
 	&-Card {
-		width: 21rem;
-		height: 9rem;
+		.ant-card-body {
+			width: 21rem;
+			min-width: 21rem;
+			height: 6.5rem;
+
+			display: flex;
+			justify-content: flex-start;
+			align-items: center;
+		}
+
+		&-Heading {
+			font-size: 1.5rem;
+			font-weight: bold;
+		}
+
+		&-Description {
+			font-size: 1rem;
+			color: rgb(30, 29, 29);
+		}
 	}
 }
