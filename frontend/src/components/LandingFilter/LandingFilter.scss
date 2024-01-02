@@ -9,20 +9,13 @@
 
 	&-Card {
 		width: 60%;
-		background-color: rgba(0, 0, 0, 0);
 	}
 
 	&-Search {
 		font-size: 1.5rem;
 		height: 3.2rem;
-		background-color: rgb(22, 22, 22);
-		border-color: rgb(22, 22, 22);
-		color: white;
 
 		input {
-			background-color: rgb(22, 22, 22);
-			color: white;
-
 			&::placeholder {
 				color: rgb(255, 255, 255, 0.4);
 			}
@@ -56,11 +49,11 @@
 		align-self: center;
 	}
 
-	&-SearchButtonContainer {
+	.search-button-container {
 		width: 100%;
 	}
 
-	&-SearchButton {
+	.search-button {
 		height: 2.5rem;
 		width: 8rem;
 		font-size: 1.2rem;
