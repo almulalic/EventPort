@@ -1,0 +1,76 @@
+.navbar {
+	position: relative;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+
+	&-account-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 1rem 2rem;
+		width: 100%;
+		position: relative;
+
+		.navbar-logo {
+			font-size: 2.5rem;
+			font-weight: bold;
+
+			a {
+				color: #fff;
+			}
+		}
+
+		.navbar-account-actions {
+			display: flex;
+			justify-content: space-between;
+			gap: 1rem;
+
+			.account-action {
+				color: white;
+				border-radius: 10px;
+				padding: 0.6rem 1.5rem;
+				font-size: 1rem;
+			}
+
+			.account-action:hover {
+				cursor: pointer;
+			}
+
+			.account-action-signup {
+				background: black;
+			}
+
+			.account-action-login {
+				background: rgb(49, 49, 49);
+			}
+		}
+	}
+
+	.navbar-categories-header {
+		hr {
+			border: 1px solid rgb(43, 43, 43);
+			margin: 0px;
+		}
+
+		.navbar-categories-menu {
+			display: flex;
+			justify-content: flex-start;
+			align-items: center;
+			gap: 2rem;
+			padding: 1rem 2rem;
+
+			&-item {
+				font-size: 1rem;
+
+				a {
+					color: rgb(255, 255, 255, 0.7);
+				}
+
+				a:hover {
+					color: rgb(255, 255, 255);
+				}
+			}
+		}
+	}
+}

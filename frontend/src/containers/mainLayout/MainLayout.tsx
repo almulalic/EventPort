@@ -5,6 +5,7 @@ import { HowItWorks } from "../../components/HowItWorks/HowItWorks";
 import Navbar from "../Navbar/Navbar";
 
 import "./MainLayout.scss";
+import EventsInFocus from "../EventsInFocus/EventsInFocus";
 
 const { Content, Footer } = Layout;
 
@@ -24,7 +25,7 @@ const MainLayout: React.FC = () => {
 				<Navbar />
 				<Content className="MainLayout-Content">
 					<EventSlideshow />
-					<EventSection />
+					<EventsInFocus />
 					<HowItWorks />
 				</Content>
 				<Footer style={{ textAlign: "center" }}>Ant Design ©2023 Created by Ant UED</Footer>
