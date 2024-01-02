@@ -4,6 +4,7 @@
 	flex-direction: column;
 	align-items: center;
 	color: white;
+	cursor: pointer;
 
 	&-img {
 		position: relative;
@@ -25,9 +26,6 @@
 			align-items: flex-start;
 			font-size: 1.1rem;
 			gap: 0.5rem;
-
-			.event-card-title {
-			}
 
 			.event-card-price {
 				font-size: 1.5rem;
