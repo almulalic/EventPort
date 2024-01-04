@@ -41,8 +41,12 @@ export default function Navbar() {
 				</div>
 
 				<div className="navbar-account-actions">
-					<div className="account-action account-action-signup">Sign Up</div>
-					<div className="account-action account-action-login">Log In</div>
+					<Button className="account-action account-action-signup" size="large" type="primary">
+						Sign Up
+					</Button>
+					<Button className="account-action account-action-login" size="large">
+						Log In
+					</Button>
 				</div>
 			</div>
 			<div className="navbar-categories-header">

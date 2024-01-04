@@ -8,7 +8,7 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		padding: 1rem 2rem;
+		padding: 1.3rem 2rem;
 		width: 100%;
 		position: relative;
 
@@ -19,31 +19,17 @@
 			a {
 				color: #fff;
 			}
+
+			a:hover {
+				color: gray;
+				cursor: pointer;
+			}
 		}
 
 		.navbar-account-actions {
 			display: flex;
 			justify-content: space-between;
 			gap: 1rem;
-
-			.account-action {
-				color: white;
-				border-radius: 10px;
-				padding: 0.6rem 1.5rem;
-				font-size: 1rem;
-			}
-
-			.account-action:hover {
-				cursor: pointer;
-			}
-
-			.account-action-signup {
-				background: black;
-			}
-
-			.account-action-login {
-				background: rgb(49, 49, 49);
-			}
 		}
 	}
 

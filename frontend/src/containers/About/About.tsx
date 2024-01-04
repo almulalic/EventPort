@@ -10,9 +10,8 @@ import "./About.scss";
 export function About() {
 	return (
 		<div id="about" className="section">
-			<h1>About</h1>
-			<CollapsibleSection id={0} title="How it works for buyers" initialExpanded={false}>
-				<div id="how-it-works-for-buyers">
+			<CollapsibleSection id={0} title="How it works for buyers" initialExpanded={true}>
+				<div id="how-it-works-section">
 					<HowItWorksCard
 						imgUrl={FindEventsSvg}
 						title="Search for Events"
@@ -21,6 +20,25 @@ export function About() {
 					<HowItWorksCard
 						imgUrl={UndrawSignUp}
 						title="View Event Details"
+						description="Explore event information, including venue, date, and ticket prices."
+					/>
+					<HowItWorksCard
+						imgUrl={CreditCardSvg}
+						title="Get your tickets"
+						description="Secure your spot at the event by purchasing tickets online."
+					/>
+				</div>
+			</CollapsibleSection>
+			<CollapsibleSection id={1} title="How it works for sellers" initialExpanded={false}>
+				<div id="how-it-works-section">
+					<HowItWorksCard
+						imgUrl={FindEventsSvg}
+						title="Create Event"
+						description="Find exciting concerts, festivals, and parties near you."
+					/>
+					<HowItWorksCard
+						imgUrl={UndrawSignUp}
+						title="Manage Event"
 						description="Explore event information, including venue, date, and ticket prices."
 					/>
 					<HowItWorksCard
