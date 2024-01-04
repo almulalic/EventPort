@@ -21,7 +21,9 @@ export default function EventCard(props: EventCardProps) {
 				</div>
 				<div className="event-card-likes">
 					<span className="event-card-likes-count">{props.likeCount}</span>
-					<HeartFilled />
+					<span>
+						<HeartFilled />
+					</span>
 				</div>
 			</div>
 		</div>

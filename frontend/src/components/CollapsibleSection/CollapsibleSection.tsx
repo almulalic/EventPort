@@ -23,13 +23,13 @@ export default function CollapsibleSection(props: CollapsibleSectionProps) {
 	}, [isExpanded, props.children]);
 
 	return (
-		<div id="collapsible-section">
+		<div id="collapsible-section" onClick={() => expandSection(!isExpanded)}>
 			<div className="collapisble-section-header">
 				<span className="collapsible-section-title">{props.title}</span>
 				{isExpanded ? (
-					<ArrowUpOutlined className="collapsible-section-arrow" onClick={() => expandSection(false)} />
+					<ArrowUpOutlined className="collapsible-section-arrow" />
 				) : (
-					<ArrowDownOutlined className="collapsible-section-arrow" onClick={() => expandSection(true)} />
+					<ArrowDownOutlined className="collapsible-section-arrow" />
 				)}
 			</div>
 			<div
@@ -38,7 +38,6 @@ export default function CollapsibleSection(props: CollapsibleSectionProps) {
 			>
 				<div ref={contentRef}>{props.children}</div>
 			</div>
-			AAAA
 		</div>
 	);
 }

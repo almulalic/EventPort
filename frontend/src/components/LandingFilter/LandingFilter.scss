@@ -21,13 +21,6 @@
 			}
 		}
 
-		&:hover,
-		&:focus,
-		&:focus-within,
-		&:active {
-			border-color: rgb(255, 255, 255, 0.4);
-		}
-
 		.ant-input-prefix {
 			margin-right: 10px;
 			width: 3rem;
