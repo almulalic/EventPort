@@ -1,8 +1,9 @@
 import { ConfigProvider, theme } from "antd";
-import MainLayout from "./containers/MainLayout/MainLayout";
 import { Route, Routes } from "react-router-dom";
 import Landing from "./pages/Landing/Landing";
 import Login from "./pages/Login/Login";
+import Events from "./pages/Events/Events";
+import SignUp from "./pages/SignUp/SignUp";
 
 function App() {
 	return (
@@ -23,12 +24,16 @@ function App() {
 					colorPrimaryText: "#cc7000",
 					colorPrimaryTextActive: "#b86e00",
 					colorPrimaryTextHover: "#e08200",
+
+					colorLink: "#f29727",
 				},
 			}}
 		>
 			<Routes>
-				<Route path="/" element={<Login />} />
+				<Route path="/" element={<Landing />} />
+				<Route path="/events" element={<Events />} />
 				<Route path="/login" element={<Login />} />
+				<Route path="/signup" element={<SignUp />} />
 			</Routes>
 		</ConfigProvider>
 	);

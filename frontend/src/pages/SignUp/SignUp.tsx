@@ -3,75 +3,82 @@ import { AxiosResponse } from "axios";
 import Link from "antd/es/typography/Link";
 import { useNavigate } from "react-router-dom";
 import { AuthService } from "../../services/Auth";
-import { AppDispatch, RootState } from "../../store";
-import { useDispatch, useSelector } from "react-redux";
 import { Alert, Button, Checkbox, Form, Input } from "antd";
-import { login_attempt, login_failed, login_sucessfull } from "../../store/authSlice";
 import { FacebookFilled, GoogleSquareFilled, InstagramOutlined, MailOutlined } from "@ant-design/icons";
 
-import "./Login.scss";
+import "./SignUp.scss";
 
-export type LoginFormData = {
+export type SignUpFormData = {
+	firstName: string;
+	lastName: string;
+	displayName: string;
 	email: string;
 	password: string;
-	rememberMe: boolean;
 };
 
-export default function Login() {
-	const { loading } = useSelector((state: RootState) => state.auth);
-	const [loginResponse, setLoginResponse] = useState("");
+export default function SignUp() {
+	const [loading, setLoading] = useState(false);
+	const [response, setResponse] = useState("");
 
 	const navigate = useNavigate();
-	const dispatch = useDispatch<AppDispatch>();
 
-	const onFinish = async (data: LoginFormData) => {
-		dispatch(login_attempt());
+	const onFinish = async (data: SignUpFormData) => {
+		setLoading(true);
 
-		let response: AxiosResponse = await AuthService.login(data.email, data.password, data.rememberMe);
+		let response: AxiosResponse = await AuthService.signup(
+			data.firstName,
+			data.lastName,
+			data.displayName,
+			data.email,
+			data.password
+		);
 		console.log(response);
 
 		if (response.status == 200) {
-			dispatch(login_sucessfull(response.data));
-			navigate("/");
+			setLoading(false);
+			navigate("/login");
 		} else {
-			dispatch(login_failed());
-			setLoginResponse(`${response.status}: ${response.data.message}`);
+			setLoading(false);
+			setResponse(`${response.status}: ${response.data.message}`);
 		}
 	};
 
 	return (
-		<div id="login">
-			<div id="login-left">
+		<div id="signup">
+			<div id="signup-left">
 				<div className="overlay"></div>
 				<div className="img-container"></div>
 			</div>
-			<div id="login-right">
-				<div className="login-card">
-					<div className="login-card-header">
-						<h1>Log in</h1>
-						<p>Sign in to your account</p>
+			<div id="signup-right">
+				<div className="signup-card">
+					<div className="signup-card-header">
+						<h1>Sign up</h1>
+						<p>
+							Already have account?
+							<Link disabled={loading} strong color="#fff" href="/login" className="signup-card-link">
+								Log in
+							</Link>
+						</p>
 					</div>
 
-					<div className="login-form-oauth-buttons">
-						<Button className="login-form-oauth-button" size="large" disabled={loading}>
+					<div className="signup-form-oauth-buttons">
+						<Button className="signup-form-oauth-button" size="large" disabled={loading}>
 							<GoogleSquareFilled />
 						</Button>
-						<Button className="login-form-oauth-button" size="large" disabled={loading}>
+						<Button className="signup-form-oauth-button" size="large" disabled={loading}>
 							<FacebookFilled />
 						</Button>
-						<Button className="login-form-oauth-button" size="large" disabled={loading}>
+						<Button className="signup-form-oauth-button" size="large" disabled={loading}>
 							<InstagramOutlined />
 						</Button>
 					</div>
-
-					<div className="login-form-or-design">
+					<div className="signup-form-or-design">
 						<div className="line"></div>
 						<div className="or-text">or</div>
 						<div className="line"></div>
 					</div>
-
 					<Form
-						name="login-form"
+						name="signup-form"
 						initialValues={{ remember: true }}
 						layout="vertical"
 						onFinish={onFinish}
@@ -79,7 +86,28 @@ export default function Login() {
 						requiredMark={false}
 					>
 						<Form.Item
-							label="Enter your email address"
+							label="First name"
+							name="firstName"
+							rules={[{ required: true, message: "Please enter your first name!" }]}
+						>
+							<Input placeholder="John" disabled={loading} />
+						</Form.Item>
+						<Form.Item
+							label="Last name"
+							name="lastName"
+							rules={[{ required: true, message: "Please enter your last name!" }]}
+						>
+							<Input placeholder="Doe" disabled={loading} />
+						</Form.Item>
+						<Form.Item
+							label="Display name"
+							name="displayName"
+							rules={[{ required: true, message: "Please enter your display name!" }]}
+						>
+							<Input placeholder="john_doe" disabled={loading} />
+						</Form.Item>
+						<Form.Item
+							label="Email"
 							name="email"
 							rules={[
 								{ required: true, message: "Please enter your email!" },
@@ -99,31 +127,24 @@ export default function Login() {
 							<Input.Password placeholder="•••••••••••••••••••••••" disabled={loading} />
 						</Form.Item>
 						<Form.Item>
-							<div className="login-form-additional-options">
+							<div className="signup-form-additional-options">
 								<Checkbox disabled={loading}>Remember me</Checkbox>
 								<Link disabled={loading}>Forgot your password?</Link>
 							</div>
 						</Form.Item>
 						<Form.Item>
 							<Button block size="large" disabled={loading} htmlType="submit">
-								Log in
+								Sign Up
 							</Button>
 						</Form.Item>
-						{loginResponse && loginResponse.length > 0 && (
+						{response && response.length > 0 && (
 							<Form.Item>
 								<div className="">
-									<Alert message={loginResponse} type="error" showIcon />
+									<Alert message={response} type="error" showIcon />
 								</div>
 							</Form.Item>
 						)}
 					</Form>
-
-					<div className="login-form-sign-up-message">
-						Don't have an account yet?
-						<Link disabled={loading} strong color="#fff" href="/signup" className="login-card-link">
-							Sign up!
-						</Link>
-					</div>
 				</div>
 			</div>
 		</div>

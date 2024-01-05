@@ -40,11 +40,16 @@ const authSlice = createSlice({
 	name: "auth",
 	initialState,
 	reducers: {
-		login: (state) => {
-			console.log(state);
+		login_attempt: (state) => {
 			state.loading = true;
-			AuthService.login(state.loginData.email, state.loginData.password, state.loginData.rememberMe);
+		},
+		login_failed: (state) => {
 			state.loading = false;
+		},
+		login_sucessfull: (state, data) => {
+			state.loading = false;
+			state.userInfo = data.payload.user;
+			state.userToken = data.payload.token;
 		},
 		logout: (state) => {
 			localStorage.removeItem("userToken");
@@ -56,5 +61,5 @@ const authSlice = createSlice({
 	},
 });
 
-export const { login, logout } = authSlice.actions;
+export const { login_attempt, login_failed, login_sucessfull, logout } = authSlice.actions;
 export default authSlice.reducer;

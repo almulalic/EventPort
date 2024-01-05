@@ -1,14 +1,16 @@
 import axios from "axios";
-import { BASE_URL } from "../constants";
+import { BASE_URL, AUTH_BASE_URL } from "../constants";
 
 export const axiosApp = axios.create({
 	baseURL: BASE_URL,
 	timeout: 10000,
+	validateStatus: () => true,
 });
 
 export const axiosAuth = axios.create({
-	baseURL: BASE_URL,
+	baseURL: AUTH_BASE_URL,
 	timeout: 10000,
+	validateStatus: () => true,
 });
 
 axiosAuth.interceptors.request.use(async (config) => {
