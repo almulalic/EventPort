@@ -1,5 +1,5 @@
 import React from "react";
-import { HeartFilled } from "@ant-design/icons";
+import { EnvironmentFilled, HeartFilled } from "@ant-design/icons";
 
 import "./EventCard.scss";
 
@@ -8,6 +8,7 @@ export interface EventCardProps {
 	title: string;
 	price: string;
 	likeCount: number;
+	location: string;
 }
 
 export default function EventCard(props: EventCardProps) {
@@ -17,13 +18,21 @@ export default function EventCard(props: EventCardProps) {
 			<div className="event-card-content">
 				<div className="event-card-info">
 					<span className="event-card-title">{props.title}</span>
-					<span className="event-card-price">{props.price}</span>
+					<div className="event-card-location">
+						<span className="icon">
+							<EnvironmentFilled />
+						</span>
+						<span className="event-card-location-name">{props.location}</span>
+					</div>
 				</div>
-				<div className="event-card-likes">
-					<span className="event-card-likes-count">{props.likeCount}</span>
-					<span>
-						<HeartFilled />
-					</span>
+				<div className="event-card-details">
+					<div className="event-card-likes">
+						<span className="event-card-likes-count">{props.likeCount}</span>
+						<span>
+							<HeartFilled />
+						</span>
+					</div>
+					<span className="event-card-price">{props.price}</span>
 				</div>
 			</div>
 		</div>

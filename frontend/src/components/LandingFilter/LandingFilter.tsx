@@ -1,11 +1,10 @@
 import dayjs from "dayjs";
-import Search from "antd/es/input/Search";
-import { RangePickerProps } from "antd/es/date-picker";
-import { Button, Card, Cascader, DatePicker, DatePickerProps, Flex, Input } from "antd";
-
-import "./LandingFilter.scss";
 import { useState } from "react";
 import { SearchOutlined } from "@ant-design/icons";
+import { RangePickerProps } from "antd/es/date-picker";
+import { Button, Cascader, DatePicker, DatePickerProps, Flex, Input } from "antd";
+
+import "./LandingFilter.scss";
 
 const { RangePicker } = DatePicker;
 const DATE_TIME_FORMAT = "YYYY-MM-DD HH";

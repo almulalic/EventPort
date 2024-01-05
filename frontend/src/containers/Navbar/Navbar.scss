@@ -4,27 +4,50 @@
 	display: flex;
 	flex-direction: column;
 
-	&-account-header {
+	.navbar-main-menu {
+		display: flex;
+		justify-content: flex-start;
+		align-items: center;
+
+		.navbar-main-menu-logo {
+			font-size: 3rem;
+			font-weight: bold;
+			margin-right: 2rem;
+			color: #fff;
+			line-height: 1;
+		}
+
+		.navbar-main-menu-logo:hover {
+			color: gray;
+			cursor: pointer;
+		}
+
+		.navbar-main-menu-container {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			gap: 1rem;
+
+			color: rgb(255, 255, 255, 0.7);
+			font-size: 1.5rem;
+		}
+
+		.navbar-main-menu-item {
+			transition: color 0.3s ease;
+		}
+
+		.navbar-main-menu-item:hover {
+			cursor: pointer;
+			color: rgb(255, 255, 255);
+		}
+	}
+
+	.navbar-account-header {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
 		padding: 1.3rem 2rem;
-		width: 100%;
 		position: relative;
-
-		.navbar-logo {
-			font-size: 2.5rem;
-			font-weight: bold;
-
-			a {
-				color: #fff;
-			}
-
-			a:hover {
-				color: gray;
-				cursor: pointer;
-			}
-		}
 
 		.navbar-account-actions {
 			display: flex;
@@ -45,17 +68,16 @@
 			align-items: center;
 			gap: 2rem;
 			padding: 1rem 2rem;
+			color: rgb(255, 255, 255, 0.7);
+			font-size: 1rem;
 
-			&-item {
-				font-size: 1rem;
+			.navbar-categories-menu-item {
+				transition: color 0.3s ease;
+			}
 
-				a {
-					color: rgb(255, 255, 255, 0.7);
-				}
-
-				a:hover {
-					color: rgb(255, 255, 255);
-				}
+			.navbar-categories-menu-item:hover {
+				cursor: pointer;
+				color: rgb(255, 255, 255);
 			}
 		}
 	}
