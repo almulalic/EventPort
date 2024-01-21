@@ -1,117 +1,185 @@
+import {
+	set_loaded,
+	set_loading,
+	ORDER_BY_OPTIONS,
+	category_change,
+	geolocation_change,
+	date_range_change,
+	PAGE_SIZE_OPTIONS,
+	page_size_change,
+} from "../../store/eventFilterSlice";
 import dayjs from "dayjs";
-import { useState } from "react";
-import { Form, Cascader, DatePicker } from "antd";
+import { useEffect, useState } from "react";
+import { AppDispatch, RootState } from "../../store";
+import { useDispatch, useSelector } from "react-redux";
+import { Form, Cascader, DatePicker, Select } from "antd";
 
-interface LocationCascaderOption {
-	value: string | number;
-	label: string;
-	children?: LocationCascaderOption[];
-	disableCheckbox?: boolean;
-}
+import "./EventFilter.scss";
+import { useSearchParams } from "react-router-dom";
+import { MetadatService } from "../../services/MetadataService";
 
 const { RangePicker } = DatePicker;
 const DATE_TIME_FORMAT = "YYYY-MM-DD HH";
 
 export default function EventFilter() {
-	const [cascaderState, setCascaderState] = useState({
-		options: [
-			{
-				label: "Light",
-				value: "light",
-				children: new Array(20).fill(null).map((_, index) => ({ label: `Number ${index}`, value: index })),
-			},
-			{
-				label: "Bamboo",
-				value: "bamboo",
-				children: [
-					{
-						label: "Little",
-						value: "little",
-						children: [
-							{
-								label: "Toy Fish",
-								value: "fish",
-								disableCheckbox: true,
-							},
-							{
-								label: "Toy Cards",
-								value: "cards",
-							},
-							{
-								label: "Toy Bird",
-								value: "bird",
-							},
-						],
-					},
-				],
-			},
-		] as LocationCascaderOption[],
+	const dispatch = useDispatch<AppDispatch>();
+
+	const { isLoading, pageSize, startDate, endDate, order } = useSelector((state: RootState) => state.eventFilter);
+	const [searchParams] = useSearchParams();
+
+	const [countryCascader, setCountryCascader] = useState({
+		options: [],
 	});
 
-	const onCascaderChange = (value: any) => {
-		console.log(value);
+	const [selectedCategories, setSelectedCategories] = useState([]);
+	const [categoriesCascader, setCategoriesCascader] = useState({
+		options: [],
+	});
+
+	async function loadFilterMetadata() {
+		dispatch(set_loading());
+
+		await getCountries();
+		await getCategories();
+
+		dispatch(set_loaded());
+	}
+
+	useEffect(() => {
+		loadFilterMetadata();
+	}, []);
+
+	async function getCountries() {
+		const countries = await MetadatService.getCountires();
+
+		if (countries.status == 200) {
+			setCountryCascader({
+				options: countries.data.map((country: any) => ({
+					label: country.name,
+					value: country.iso2Code,
+					children: country.cities.map((city: any) => ({ label: city, value: city })),
+				})),
+			});
+
+			if (searchParams.has("categories")) {
+				if (searchParams.get("categories")!.length > 0) {
+					setSelectedCategories(searchParams.get("categories")?.split(",") as any);
+				}
+			}
+		}
+	}
+
+	async function getCategories() {
+		const categories = await MetadatService.getCategories();
+
+		if (categories.status == 200) {
+			setCategoriesCascader({
+				options: categories.data.map((category: any) => ({
+					label: category.name,
+					value: category.name,
+				})),
+			});
+		}
+	}
+
+	const handlePageSizeChange = (value: any) => {
+		dispatch(page_size_change(value));
 	};
 
-	const [datePickerState, setDatePickerState] = useState({
-		startDate: dayjs().set("hour", 8).set("minute", 0),
-		endDate: dayjs().add(1, "day").set("hour", 8).set("minute", 0),
-	});
+	const onLocationChange = (_: any, all: any) => {
+		dispatch(geolocation_change(all));
+	};
 
-	const onFinish = () => {};
+	const onCategoryChange = (value: any, all: any) => {
+		setSelectedCategories(value);
+		dispatch(category_change(all));
+	};
+
+	const handleOrderChange = () => {};
+
+	const onDateRangeChange = (value: any) => {
+		if (value) {
+			const [startDate, endDate] = value;
+
+			dispatch(
+				date_range_change({
+					startDate: startDate ? startDate.toISOString() : "",
+					endDate: endDate ? endDate.toISOString() : "",
+				})
+			);
+		}
+	};
 
 	return (
-		<div className="events-filter">
-			<h1>Available events</h1>
+		<div id="event-filter">
 			<Form
-				className="events-filter"
-				name="events-filter"
+				className="event-filter"
+				name="event-filter"
 				layout="inline"
 				initialValues={{ remember: true }}
-				onFinish={onFinish}
 				autoComplete="off"
 				requiredMark={false}
 			>
-				<Form.Item label="Showing events in" colon={false}>
-					<Cascader
-						id="location-cascader"
-						className="events-filter-category-cascader"
-						options={cascaderState.options}
-						onChange={onCascaderChange}
-						multiple
-						maxTagCount="responsive"
-						placeholder="Select location..."
+				<Form.Item label="Showing" colon={false}>
+					<Select
+						className="event-filter-page-size-select"
+						defaultValue={pageSize.toString()}
+						disabled={isLoading}
+						loading={isLoading}
+						options={PAGE_SIZE_OPTIONS}
+						onChange={handlePageSizeChange}
 					/>
 				</Form.Item>
-				<Form.Item label="with category" colon={false}>
+				<Form.Item label="events in" colon={false}>
 					<Cascader
 						id="location-cascader"
-						className="events-filter-category-cascader"
-						options={cascaderState.options}
-						onChange={onCascaderChange}
+						className="event-filter-cascader"
+						options={countryCascader.options}
+						onChange={onLocationChange}
 						multiple
-						maxTagCount="responsive"
+						maxTagCount={5}
+						placeholder="Select location..."
+						loading={isLoading}
+						disabled={isLoading}
+					/>
+				</Form.Item>
+
+				<Form.Item label="with category" colon={false}>
+					<Cascader
+						id="category-cascader"
+						className="event-filter-cascader"
+						options={categoriesCascader.options}
+						onChange={onCategoryChange}
+						value={selectedCategories}
+						multiple
+						maxTagCount={5}
 						placeholder="Select category..."
+						loading={isLoading}
+						disabled={isLoading}
 					/>
 				</Form.Item>
 				<Form.Item label="from" colon={false}>
 					<RangePicker
 						showTime={{ format: "HH" }}
 						format={DATE_TIME_FORMAT}
-						defaultValue={[datePickerState.startDate, datePickerState.endDate]}
+						defaultValue={[
+							dayjs(searchParams.get("startDate") || startDate),
+							dayjs(searchParams.get("endDate") || endDate),
+						]}
 						allowEmpty={[true, true]}
 						separator="to"
-						// onChange={onChange}
-						// onOk={onOk}
+						onChange={onDateRangeChange}
+						disabled={isLoading}
 					/>
 				</Form.Item>
 				<Form.Item label="ordered by" colon={false}>
-					<RangePicker
-						showTime={{ format: "HH" }}
-						format={DATE_TIME_FORMAT}
-						defaultValue={[datePickerState.startDate, datePickerState.endDate]}
-						allowEmpty={[true, true]}
-						// onChange={onChange}
-						// onOk={onOk}
+					<Select
+						className="event-filter-order-select"
+						defaultValue={order}
+						disabled={isLoading}
+						loading={isLoading}
+						options={ORDER_BY_OPTIONS}
+						onChange={handleOrderChange}
 					/>
 				</Form.Item>
 			</Form>
