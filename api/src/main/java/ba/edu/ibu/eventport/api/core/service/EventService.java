@@ -88,7 +88,6 @@ public class EventService {
     }
 
     event.getLikedBy().add(userObjectId);
-    event.setId(userObjectId);
     eventRepository.save(event);
 
     return new EventViewDTO(event);
@@ -109,7 +108,6 @@ public class EventService {
     }
 
     event.getLikedBy().remove(userObjectId);
-    event.setId(event.getId());
     eventRepository.save(event);
 
     return new EventViewDTO(event);
