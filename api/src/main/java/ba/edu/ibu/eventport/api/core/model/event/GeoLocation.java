@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GeoLocation {
-  private String iso2code;
+  private String iso2Code;
   private String country;
   private String city;
 }
