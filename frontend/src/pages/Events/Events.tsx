@@ -1,108 +1,93 @@
+import { Pagination } from "antd";
+import { RootState } from "../../store";
+import { useSelector } from "react-redux";
+import Search from "antd/es/input/Search";
+import Page from "../../components/Page/Page";
 import { useSearchParams } from "react-router-dom";
-import Navbar from "../../containers/Navbar/Navbar";
+import EventCard from "../../components/EventCard/EventCard";
+import { RefObject, useEffect, useRef, useState } from "react";
 import EventFilter from "../../components/EventFilter/EventFilter";
+import { PublicAPIService } from "../../services/PublicApiService";
 
 import "./Events.scss";
-import EventCard from "../../components/EventCard/EventCard";
-import Footer from "../../containers/Footer/Footer";
-
-const events = [
-	{
-		backgroundUrl: "https://source.unsplash.com/800x600/?music",
-		title: "Music Festival",
-		price: "$50",
-		likeCount: 120,
-		location: "City Concert Hall",
-	},
-	{
-		backgroundUrl: "https://source.unsplash.com/800x600/?art",
-		title: "Art Exhibition",
-		price: "$25",
-		likeCount: 80,
-		location: "Downtown Art Gallery",
-	},
-	{
-		backgroundUrl: "https://source.unsplash.com/800x600/?food",
-		title: "Food Tasting",
-		price: "$30",
-		likeCount: 100,
-		location: "Beach",
-	},
-	{
-		backgroundUrl: "https://source.unsplash.com/800x600/?tech",
-		title: "Tech Conference",
-		price: "$75",
-		likeCount: 50,
-		location: "Conference Center",
-	},
-	{
-		backgroundUrl: "https://source.unsplash.com/800x600/?outdoor",
-		title: "Outdoor Adventure",
-		price: "$40",
-		likeCount: 90,
-		location: "Park",
-	},
-	{
-		backgroundUrl: "https://source.unsplash.com/800x600/?fashion",
-		title: "Fashion Show",
-		price: "$60",
-		likeCount: 110,
-		location: "Museum",
-	},
-	{
-		backgroundUrl: "https://source.unsplash.com/800x600/?film",
-		title: "Film Premiere",
-		price: "$55",
-		likeCount: 70,
-		location: "Community Center",
-	},
-	{
-		backgroundUrl: "https://source.unsplash.com/800x600/?science",
-		title: "Science Fair",
-		price: "$20",
-		likeCount: 30,
-		location: "Beach",
-	},
-	{
-		backgroundUrl: "https://source.unsplash.com/800x600/?charity",
-		title: "Charity Gala",
-		price: "$100",
-		likeCount: 150,
-		location: "Park",
-	},
-	{
-		backgroundUrl: "https://source.unsplash.com/800x600/?book",
-		title: "Book Launch",
-		price: "$35",
-		likeCount: 60,
-		location: "Museum",
-	},
-];
 
 export default function Events() {
+	const eventCardRef: RefObject<HTMLDivElement> = useRef(null);
+
+	const [events, setEvents] = useState([] as any[]);
 	const [searchParams] = useSearchParams();
 
-	const paramValue = searchParams.get("category");
+	const [searchText, setSearchText] = useState(searchParams.get("searchText") || "");
+	const [isLoading, setLoading] = useState(true);
+	const [currentPage, setCurrentPage] = useState(0);
+	const [totalResults, setTotalResults] = useState(100);
+
+	const { pageSize, geolocationCountriesURI, geolocationCitiesURI, categoriesURI, startDate, endDate } = useSelector(
+		(state: RootState) => state.eventFilter
+	);
+
+	async function getEvents() {
+		setLoading(true);
+
+		const events = await PublicAPIService.getAll(
+			searchText,
+			geolocationCountriesURI,
+			geolocationCitiesURI,
+			categoriesURI,
+			startDate,
+			endDate,
+			currentPage,
+			pageSize
+		);
+
+		setEvents(events.data.content);
+		setTotalResults(events.data.totalElements);
+
+		setLoading(false);
+	}
+
+	useEffect(() => {
+		getEvents();
+	}, [searchText, pageSize, geolocationCountriesURI, geolocationCitiesURI, categoriesURI, startDate, endDate]);
+
+	const onPageChange = (page: any) => {
+		setCurrentPage(page);
+	};
+
+	const onSearchChange = (e: any) => {
+		setSearchText(e.target.value);
+	};
 
 	return (
-		<div id="events">
-			<Navbar />
+		<Page id="events">
 			<div className="events-section">
-				<EventFilter />
-				<div className="events-wrapper">
+				<div className="events-section-filter">
+					<Search
+						className="events-section-filter-search"
+						placeholder="Find events by name, venue, city..."
+						loading={isLoading}
+						size="large"
+						onChange={onSearchChange}
+						value={searchText}
+					/>
+					<EventFilter />
+				</div>
+				<div className="events-wrapper" ref={eventCardRef}>
 					{events.map((x, i) => (
-						<EventCard
-							key={i}
-							backgroundUrl={x.backgroundUrl}
-							title={x.title}
-							price={x.price}
-							likeCount={x.likeCount}
-							location={x.location}
-						/>
+						<EventCard key={i} event={x} overview={false} />
 					))}
 				</div>
+				<div className="events-pagination">
+					<Pagination
+						defaultCurrent={currentPage}
+						total={totalResults}
+						disabled={isLoading}
+						showSizeChanger={false}
+						onChange={onPageChange}
+					/>
+					<div className="events-pagination-total">Total {totalResults} items</div>
+				</div>
 			</div>
-			<Footer />
-		</div>
+		</Page>
 	);
 }
