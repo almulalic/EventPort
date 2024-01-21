@@ -1,3 +1,5 @@
+@import "src/assets/styles/colors";
+
 .navbar {
 	position: relative;
 	width: 100%;
@@ -53,6 +55,11 @@
 			display: flex;
 			justify-content: space-between;
 			gap: 1rem;
+		}
+
+		.account-action-create-event:hover {
+			color: $colorPrimary;
+			cursor: pointer;
 		}
 	}
 

@@ -41,7 +41,7 @@ export default function Footer() {
 				</ul>
 			</div>
 
-			<div className="all-rights-reserved">EventPort Copyright © 2023 Inferno - All rights reserved</div>
+			<div className="all-rights-reserved">EventPort Copyright © 2023 amulalic - All rights reserved</div>
 		</Layout.Footer>
 	);
 }

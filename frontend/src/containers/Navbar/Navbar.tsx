@@ -1,8 +1,8 @@
-import { Button, Layout } from "antd";
-import { AppDispatch, RootState } from "../../store";
-import { useDispatch, useSelector } from "react-redux";
+import { Button } from "antd";
+import { RootState } from "../../store";
+import { useSelector } from "react-redux";
 import { createSearchParams, useNavigate } from "react-router-dom";
-import { logout } from "../../store/authSlice";
+import { LoggedInUserMenu } from "../../components/LoggedInUserMenu/LoggedInUserMenu";
 
 import "./Navbar.scss";
 
@@ -37,7 +37,6 @@ export default function Navbar() {
 	const navigate = useNavigate();
 
 	const { userInfo } = useSelector((state: RootState) => state.auth);
-	const dispatch = useDispatch<AppDispatch>();
 
 	return (
 		<header className="navbar">
@@ -56,9 +55,7 @@ export default function Navbar() {
 
 				<div className="navbar-account-actions">
 					{userInfo ? (
-						<Button className="account-action account-action-login" size="large" onClick={() => dispatch(logout())}>
-							Log out
-						</Button>
+						<LoggedInUserMenu />
 					) : (
 						<>
 							<Button
