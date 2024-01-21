@@ -1,75 +1,83 @@
 import dayjs from "dayjs";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SearchOutlined } from "@ant-design/icons";
-import { RangePickerProps } from "antd/es/date-picker";
-import { Button, Cascader, DatePicker, DatePickerProps, Flex, Input } from "antd";
+import { cascaderOptionsToURI } from "../../utils/utils";
+import { Button, Cascader, DatePicker, Flex, Input } from "antd";
+import { createSearchParams, useNavigate } from "react-router-dom";
 
 import "./LandingFilter.scss";
+import { MetadatService } from "../../services/MetadataService";
 
 const { RangePicker } = DatePicker;
 const DATE_TIME_FORMAT = "YYYY-MM-DD HH";
 
-interface Option {
-	value: string | number;
-	label: string;
-	children?: Option[];
-	disableCheckbox?: boolean;
-}
-
 export const LandingFilter = () => {
-	const [cascaderState, setCascaderState] = useState({
-		options: [
-			{
-				label: "Light",
-				value: "light",
-				children: new Array(20).fill(null).map((_, index) => ({ label: `Number ${index}`, value: index })),
-			},
-			{
-				label: "Bamboo",
-				value: "bamboo",
-				children: [
-					{
-						label: "Little",
-						value: "little",
-						children: [
-							{
-								label: "Toy Fish",
-								value: "fish",
-								disableCheckbox: true,
-							},
-							{
-								label: "Toy Cards",
-								value: "cards",
-							},
-							{
-								label: "Toy Bird",
-								value: "bird",
-							},
-						],
-					},
-				],
-			},
-		] as Option[],
+	const navigate = useNavigate();
+
+	const [isLoading, setLoading] = useState(false);
+	const [searchText, setSearchText] = useState("");
+
+	const [availableCategories, setAvailableCategories] = useState({
+		options: [],
 	});
+
+	const [selectedCategories, setSelectedCategories] = useState([]);
+
 	const [datePickerState, setDatePickerState] = useState({
-		startDate: dayjs().set("hour", 8).set("minute", 0),
-		endDate: dayjs().add(1, "day").set("hour", 8).set("minute", 0),
+		startDate: dayjs().hour(8).minute(0),
+		endDate: dayjs().add(6, "month"),
 	});
 
-	const onChange = (
-		value: DatePickerProps["value"] | RangePickerProps["value"],
-		dateString: [string, string] | string
-	) => {
-		console.log("Selected Time: ", value);
-		console.log("Formatted Selected Time: ", dateString);
+	async function loadFilterMetadata() {
+		await getCategories();
+	}
+
+	useEffect(() => {
+		loadFilterMetadata();
+	}, []);
+
+	async function getCategories() {
+		const categories = await MetadatService.getCategories();
+
+		if (categories.status == 200) {
+			setAvailableCategories({
+				options: categories.data.map((category: any) => ({
+					label: category.name,
+					value: category.name,
+				})),
+			});
+		}
+	}
+
+	const onSearchChange = (e: any) => {
+		setSearchText(e.target.value);
 	};
 
-	const onOk = (value: DatePickerProps["value"] | RangePickerProps["value"]) => {
-		console.log("onOk: ", value);
+	const onCategoryChange = (_: any, newValue: any) => {
+		setSelectedCategories(newValue);
 	};
 
-	const onCascaderChange = (value: any) => {
-		console.log(value);
+	const onDateRangeChange = (value: any) => {
+		if (value) {
+			const [startDate, endDate] = value;
+
+			setDatePickerState({
+				startDate: startDate,
+				endDate: endDate,
+			});
+		}
+	};
+
+	const onFilterSubmit = () => {
+		navigate({
+			pathname: "/events",
+			search: `?${createSearchParams({
+				searchText: searchText,
+				categories: cascaderOptionsToURI(selectedCategories),
+				startDate: datePickerState.startDate.toISOString(),
+				endDate: datePickerState.endDate.toISOString(),
+			})}`,
+		});
 	};
 
 	return (
@@ -80,18 +88,22 @@ export const LandingFilter = () => {
 						className="LandingFilter-Search"
 						placeholder="Find events by name, venue, city..."
 						size="large"
+						value={searchText}
 						allowClear
+						onChange={onSearchChange}
 						prefix={<SearchOutlined />}
+						disabled={isLoading}
 					/>
 
 					<Flex gap="middle" justify="center" align="start" style={{ width: "100%" }}>
 						<Cascader
 							className="CategoryCascader"
-							options={cascaderState.options}
-							onChange={onCascaderChange}
+							options={availableCategories.options}
+							onChange={onCategoryChange}
 							multiple
-							maxTagCount="responsive"
+							maxTagCount={5}
 							placeholder="Select categories..."
+							loading={isLoading}
 						/>
 
 						<RangePicker
@@ -99,13 +111,13 @@ export const LandingFilter = () => {
 							format={DATE_TIME_FORMAT}
 							defaultValue={[datePickerState.startDate, datePickerState.endDate]}
 							allowEmpty={[true, true]}
-							onChange={onChange}
-							onOk={onOk}
+							separator="to"
+							onChange={onDateRangeChange}
 						/>
 					</Flex>
 
 					<Flex className="search-button-container" gap="middle" justify="center" align="start">
-						<Button className="search-button" type="primary" shape="default">
+						<Button className="search-button" type="primary" shape="default" onClick={onFilterSubmit}>
 							Search
 						</Button>
 					</Flex>
