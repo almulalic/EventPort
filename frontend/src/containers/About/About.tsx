@@ -1,4 +1,3 @@
-import { useState } from "react";
 import HowItWorksCard from "./sections/HowItWorksCard";
 import CollapsibleSection from "../../components/CollapsibleSection/CollapsibleSection";
 import FindEventsSvg from "/Users/admin/Desktop/fagz/Web_Engineering/project/EventPort/frontend/src/assets/svg/undraw_search.svg";

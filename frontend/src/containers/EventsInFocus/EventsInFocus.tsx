@@ -120,10 +120,11 @@ export default function EventsInFocus() {
 					<ArrowRightOutlined className="navigation-button" onClick={onNext} />
 				</div>
 			</div>
-			<div className="events" ref={eventsInFocusRef}>
+			{/* <div className="events" ref={eventsInFocusRef}>
 				{events.map((x, i) => (
 					<EventCard
 						key={i}
+						id={i.toFixed()}
 						backgroundUrl={x.backgroundUrl}
 						title={x.title}
 						price={x.price}
@@ -131,7 +132,7 @@ export default function EventsInFocus() {
 						location={x.location}
 					/>
 				))}
-			</div>
+			</div> */}
 		</div>
 	);
 }
