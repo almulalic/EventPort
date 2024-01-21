@@ -1,0 +1,30 @@
+#events {
+	width: 100%;
+
+	.events-section {
+		box-sizing: border-box;
+		position: relative;
+
+		width: 100%;
+		background-color: rgb(49, 49, 49);
+		padding: 2rem 5rem;
+
+		h1 {
+			color: white;
+		}
+
+		.events-filter-category-cascader {
+			width: 15rem;
+		}
+
+		.events-wrapper {
+			padding-top: 5rem;
+			display: flex;
+			justify-content: space-around;
+			align-items: center;
+			flex-wrap: wrap;
+			column-gap: 1.5rem;
+			row-gap: 2.5rem;
+		}
+	}
+}
