@@ -1,0 +1,23 @@
+#attending-events {
+	min-height: 560px;
+	display: flex;
+	align-items: flex-start;
+	justify-content: flex-start;
+	flex-direction: column;
+
+	.attending-events-empty-state {
+		min-height: 560px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.attending-events-wrapper {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: flex-start;
+		column-gap: 6rem;
+		row-gap: 2rem;
+		padding: 4rem;
+	}
+}
