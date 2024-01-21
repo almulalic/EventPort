@@ -41,6 +41,7 @@ export const LoggedInUserMenu = () => {
 					</Space>
 				</a>
 			</Dropdown>
+
 			<Button className="account-action account-action-login" size="large" onClick={() => dispatch(logout())}>
 				Log out
 			</Button>

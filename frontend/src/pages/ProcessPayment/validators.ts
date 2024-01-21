@@ -22,9 +22,34 @@ export const validateCreditCardNumber = (rule: any, value: any) => {
 	return Promise.resolve();
 };
 
-export const validateFutureDate = (rule: any, value: any) => {
-	if (value && value.isBefore(DateTime.now(), "month")) {
+export const validateFutureDate = (_: any, value: any) => {
+	if (value && value.isBefore(DateTime.now(), "second")) {
 		return Promise.reject("Expiration date must be in the future");
+	}
+
+	return Promise.resolve();
+};
+
+export const validateHasTicker = async (_: any, names: any) => {
+	if (!names || names.length < 1) {
+		return Promise.reject(new Error("At least 1 ticket type"));
+	}
+};
+
+export const validateURL = (_: any, value: any) => {
+	if (value && !/^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/.test(value)) {
+		return Promise.reject("Invalid URL");
+	}
+	return Promise.resolve();
+};
+
+export const validateCategoriesCascader = (_: any, value: any) => {
+	console.log(value);
+
+	if (!value || value.length === 0) {
+		return Promise.reject("Please select at least one category!");
+	} else if (value.length > 3) {
+		return Promise.reject("You can select at most 3 categories!");
 	}
 
 	return Promise.resolve();

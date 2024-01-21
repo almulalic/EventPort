@@ -17,9 +17,9 @@ import { Form, Cascader, DatePicker, Select } from "antd";
 import "./EventFilter.scss";
 import { useSearchParams } from "react-router-dom";
 import { MetadatService } from "../../services/MetadataService";
+import { DATE_TIME_FORMAT } from "../../utils/utils";
 
 const { RangePicker } = DatePicker;
-const DATE_TIME_FORMAT = "YYYY-MM-DD HH";
 
 export default function EventFilter() {
 	const dispatch = useDispatch<AppDispatch>();

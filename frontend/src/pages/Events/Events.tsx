@@ -1,4 +1,4 @@
-import { Pagination } from "antd";
+import { Button, Pagination } from "antd";
 import { RootState } from "../../store";
 import { useSelector } from "react-redux";
 import Search from "antd/es/input/Search";
@@ -10,6 +10,7 @@ import EventFilter from "../../components/EventFilter/EventFilter";
 import { PublicAPIService } from "../../services/PublicApiService";
 
 import "./Events.scss";
+import CreateEventModal from "../../components/CreateEventModal/CreateEventModal";
 
 export default function Events() {
 	const eventCardRef: RefObject<HTMLDivElement> = useRef(null);
@@ -58,10 +59,19 @@ export default function Events() {
 		setSearchText(e.target.value);
 	};
 
+	const [isCreateModalVisible, setCreateModalVisible] = useState(false);
+
 	return (
 		<Page id="events">
 			<div className="events-section">
 				<div className="events-section-filter">
+					<Button
+						className="account-action account-action-login"
+						size="large"
+						onClick={() => setCreateModalVisible(true)}
+					>
+						Create Event
+					</Button>
 					<Search
 						className="events-section-filter-search"
 						placeholder="Find events by name, venue, city..."
@@ -88,6 +98,7 @@ export default function Events() {
 					<div className="events-pagination-total">Total {totalResults} items</div>
 				</div>
 			</div>
+			<CreateEventModal isModalOpen={isCreateModalVisible} handleCancel={() => setCreateModalVisible(false)} />
 		</Page>
 	);
 }
