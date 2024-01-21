@@ -1,11 +1,12 @@
-package ba.edu.ibu.eventport.api.core.model;
+package ba.edu.ibu.eventport.api.core.model.event;
 
+import ba.edu.ibu.eventport.api.core.model.event.GeoLocation;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import ba.edu.ibu.eventport.api.core.model.enums.EventStatus;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -18,12 +19,17 @@ public class Event {
   private String id;
   private String name;
   private String description;
-  private Date dateTime;
-  private String location;
-  private List<Integer> participants;
-  private String type;
+  private int likes;
+  private LocalDateTime dateTime;
+  private String venue;
+  private GeoLocation geoLocation;
+  private String googleMapsLink;
+  private List<String> participants;
   private EventStatus status;
+  private String category;
   private int capacity;
-  private Date registrationDeadline;
+  private LocalDateTime registrationDeadline;
   private String bannerImageURL;
+  private String priceRange;
+  private List<TicketType> ticketTypes;
 }
