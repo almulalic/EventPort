@@ -1,10 +1,13 @@
 package ba.edu.ibu.eventport.api.rest.controllers;
 
-import ba.edu.ibu.eventport.api.core.model.Event;
-import ba.edu.ibu.eventport.api.core.model.enums.EventStatus;
+import ba.edu.ibu.eventport.api.core.model.event.Event;
+import ba.edu.ibu.eventport.api.core.service.JwtService;
 import ba.edu.ibu.eventport.api.rest.configurations.versioning.ApiVersion;
+import ba.edu.ibu.eventport.api.rest.models.auth.User;
 import ba.edu.ibu.eventport.api.rest.models.dto.EventRequestDTO;
+import ba.edu.ibu.eventport.api.rest.models.dto.EventTicket;
 import ba.edu.ibu.eventport.api.rest.models.dto.EventViewDTO;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -14,10 +17,11 @@ import ba.edu.ibu.eventport.api.core.service.EventService;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @ApiVersion(1)
-@RequestMapping("api/events")
+@RequestMapping("api/event")
 public class EventController {
   private final EventService eventService;
 
@@ -26,12 +30,27 @@ public class EventController {
   }
 
   @RequestMapping(method = RequestMethod.GET, path = "")
-  public ResponseEntity<Page<Event>> getEvents(
-    @RequestParam(required = false) Optional<String> type,
-    @RequestParam(required = false) Optional<EventStatus> status,
+  public ResponseEntity<Page<EventViewDTO>> getEvents(
+    @RequestParam(required = false) String searchText,
+    @RequestParam(required = false) Optional<List<String>> geoLocationCountries,
+    @RequestParam(required = false) Optional<List<String>> geoLocationCities,
+    @RequestParam(required = false) Optional<List<String>> categories,
+    @RequestParam(required = false) Optional<String> startDate,
+    @RequestParam(required = false) Optional<String> endDate,
     Pageable pageable
   ) {
-    return ResponseEntity.ok(eventService.getEvents(type, status, pageable));
+    return ResponseEntity.ok(
+      eventService.getEvents(
+          searchText,
+          geoLocationCountries,
+          geoLocationCities,
+          categories,
+          startDate,
+          endDate,
+          pageable
+        )
+        .map(EventViewDTO::new)
+    );
   }
 
   @RequestMapping(method = RequestMethod.GET, path = "category/{category}")
@@ -48,11 +67,48 @@ public class EventController {
     return ResponseEntity.ok(eventService.getEventById(id));
   }
 
-  @RequestMapping(method = RequestMethod.POST, path = "")
-  public ResponseEntity<EventViewDTO> add(
-    @RequestBody EventRequestDTO event
+  @RequestMapping(method = RequestMethod.GET, path = "/user/liked")
+  public ResponseEntity<List<Event>> getUserLikedEvents(
+    HttpServletRequest request
   ) {
-    return ResponseEntity.ok(eventService.addEvent(event));
+    User user = ((User) request.getAttribute("user"));
+    return ResponseEntity.ok(eventService.getUserLikedEvents(user.getId()));
+  }
+
+  @RequestMapping(method = RequestMethod.GET, path = "/user/attending")
+  public ResponseEntity<List<EventTicket>> getUserAttendingEvents(
+    HttpServletRequest request
+  ) {
+    User user = ((User) request.getAttribute("user"));
+    return ResponseEntity.ok(eventService.getUserAttendingEvents(user.getId()));
+  }
+
+  @RequestMapping(method = RequestMethod.POST, path = "/user/like/{eventId}")
+  public ResponseEntity<EventViewDTO> like(
+    HttpServletRequest request,
+    @PathVariable String eventId
+  ) {
+    User user = ((User) request.getAttribute("user"));
+    return ResponseEntity.ok(eventService.likeEvent(user.getId(), eventId));
+  }
+
+  @RequestMapping(method = RequestMethod.POST, path = "/user/unlike/{eventId}")
+  public ResponseEntity<EventViewDTO> unlike(
+    HttpServletRequest request,
+    @PathVariable String eventId
+  ) {
+    User user = ((User) request.getAttribute("user"));
+    return ResponseEntity.ok(eventService.unlikeEvent(user.getId(), eventId));
+  }
+
+  @RequestMapping(method = RequestMethod.POST, path = "/{eventId}/ticket/{ticketName}/buy")
+  public ResponseEntity<EventViewDTO> buyTicket(
+    HttpServletRequest request,
+    @PathVariable String eventId,
+    @PathVariable String ticketName
+  ) {
+    User user = ((User) request.getAttribute("user"));
+    return ResponseEntity.ok(eventService.buyTicket(user.getId(), eventId, ticketName));
   }
 
   @RequestMapping(method = RequestMethod.PUT, path = "/{id}")

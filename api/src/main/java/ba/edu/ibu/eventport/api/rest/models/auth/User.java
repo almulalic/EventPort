@@ -4,6 +4,7 @@ import ba.edu.ibu.eventport.api.rest.models.auth.enums.AuthType;
 import ba.edu.ibu.eventport.api.rest.models.auth.enums.UserType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mongodb.lang.NonNull;
+import io.jsonwebtoken.Claims;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -59,6 +60,18 @@ public class User implements UserDetails {
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
     return List.of(new SimpleGrantedAuthority(userType.name()));
+  }
+
+  public static User fromJwt(Claims claims) {
+
+    User user = new User();
+    user.setId(claims.get("id", String.class));
+    user.setUsername(claims.get("email", String.class));
+    user.setFirstName(claims.get("firstName", String.class));
+    user.setLastName(claims.get("lastName", String.class));
+    user.setEmail(claims.get("email", String.class));
+
+    return user;
   }
 }
 

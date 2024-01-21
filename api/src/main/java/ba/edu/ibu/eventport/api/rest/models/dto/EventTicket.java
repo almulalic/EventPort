@@ -1,5 +1,7 @@
-package ba.edu.ibu.eventport.api.core.model.event;
+package ba.edu.ibu.eventport.api.rest.models.dto;
 
+import ba.edu.ibu.eventport.api.core.model.event.Event;
+import ba.edu.ibu.eventport.api.core.model.event.TicketType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
