@@ -96,6 +96,8 @@
     </dependencies>
 
     <build>
+        <finalName>eventport-auth</finalName>
+
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
