@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./authSlice";
+import eventFilterReducer from "./eventFilterSlice";
 
 const store = configureStore({
 	reducer: {
 		auth: authReducer,
+		eventFilter: eventFilterReducer,
 	},
 });
 

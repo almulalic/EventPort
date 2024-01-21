@@ -1,40 +1,30 @@
+import { UserInfo } from "../models/UserInfo";
 import { createSlice } from "@reduxjs/toolkit";
-import { AuthService } from "../services/Auth";
 import { LoginFormData } from "../pages/Login/Login";
 
-const userToken = localStorage.getItem("userToken") ? localStorage.getItem("userToken") : null;
+export interface AuthState {
+	loading: boolean;
+	userInfo: UserInfo | null;
+	isLoggedIn: boolean;
+	userToken: string | null;
+	error: any;
+	success: boolean;
+	loginData: LoginFormData;
+}
 
-const initialState = {
+const initialState: AuthState = {
 	loading: false,
-	userInfo: null,
-	userToken,
+	userInfo: localStorage.getItem("userInfo") ? JSON.parse(localStorage.getItem("userInfo") || "") : null,
+	isLoggedIn: localStorage.getItem("userToken") ? true : false,
+	userToken: localStorage.getItem("userToken") ? localStorage.getItem("userToken") : null,
 	error: null,
 	success: false,
 	loginData: {
 		email: "",
 		password: "",
 		rememberMe: false,
-	} as LoginFormData,
+	},
 };
-
-// export const registerUser = createAsyncThunk(
-//     'auth/register',
-//     async (data: RegisterFormData, { rejectWithValue }) => {
-//         try {
-//             await appAxios.post(
-//                 '/auth/register',
-//                 data,
-//             )
-//         } catch (error: any) {
-//             // return custom error message from backend if present
-//             if (error.response && error.response.data.message) {
-//                 return rejectWithValue(error.response.data.message)
-//             } else {
-//                 return rejectWithValue(error.message)
-//             }
-//         }
-//     }
-// )
 
 const authSlice = createSlice({
 	name: "auth",
@@ -48,12 +38,16 @@ const authSlice = createSlice({
 		},
 		login_sucessfull: (state, data) => {
 			state.loading = false;
+			state.isLoggedIn = true;
 			state.userInfo = data.payload.user;
 			state.userToken = data.payload.token;
+			localStorage.setItem("userToken", data.payload.token);
+			localStorage.setItem("userInfo", JSON.stringify(data.payload.user));
 		},
 		logout: (state) => {
 			localStorage.removeItem("userToken");
 			state.loading = false;
+			state.isLoggedIn = false;
 			state.userInfo = null;
 			state.userToken = null;
 			state.error = null;
