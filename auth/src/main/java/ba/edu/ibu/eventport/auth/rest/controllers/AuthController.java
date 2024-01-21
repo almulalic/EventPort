@@ -21,7 +21,7 @@ public class AuthController {
     this.authService = authService;
   }
 
-  @RequestMapping(method = RequestMethod.POST, path = "/register")
+  @RequestMapping(method = RequestMethod.POST, path = "/signup")
   public ResponseEntity<User> createUser(
     @Valid
     @RequestBody

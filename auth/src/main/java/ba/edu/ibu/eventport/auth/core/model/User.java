@@ -24,8 +24,9 @@ public class User implements UserDetails {
   private AuthType authType;
   private String firstName;
   private String lastName;
-  private String email;
   private String username;
+  private String email;
+  private String displayName;
   @NotEmpty
   @JsonIgnore
   private String password;
@@ -41,7 +42,7 @@ public class User implements UserDetails {
     String firstName,
     String lastName,
     String email,
-    String username,
+    String displayName,
     String password,
     Date creationDate
   ) {
@@ -50,8 +51,9 @@ public class User implements UserDetails {
     this.authType = authType;
     this.firstName = firstName;
     this.lastName = lastName;
+    this.username = email;
     this.email = email;
-    this.username = username;
+    this.displayName = displayName;
     this.password = password;
     this.creationDate = creationDate;
   }
@@ -129,16 +131,21 @@ public class User implements UserDetails {
     this.email = email;
   }
 
-  public String getUsername() {
-    return username;
+  public String getDisplayName() {
+    return displayName;
   }
 
-  public void setUsername(String username) {
-    this.username = username;
+  public void setDisplayName(String displayName) {
+    this.displayName = displayName;
   }
 
   public String getPassword() {
     return password;
+  }
+
+  @Override
+  public String getUsername() {
+    return email;
   }
 
   public void setPassword(String password) {

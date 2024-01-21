@@ -12,13 +12,13 @@ public class UserDTO {
   private AuthType authType;
   private String name;
   private String email;
-  private String username;
+  private String displayName;
   private Date creationDate;
 
   public UserDTO(User user) {
     this.id = user.getId();
     this.name = user.getFirstName() + " " + user.getLastName();
-    this.username = user.getUsername();
+    this.displayName = user.getDisplayName();
     this.userType = user.getUserType();
     this.authType = user.getAuthType();
     this.email = user.getEmail();
@@ -65,12 +65,12 @@ public class UserDTO {
     this.email = email;
   }
 
-  public String getUsername() {
-    return username;
+  public String getDisplayName() {
+    return displayName;
   }
 
-  public void setUsername(String username) {
-    this.username = username;
+  public void setDisplayName(String displayName) {
+    this.displayName = displayName;
   }
 
   public Date getCreationDate() {
