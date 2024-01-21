@@ -46,7 +46,7 @@ public class TicketService {
     }
 
     Ticket updatedTicket = payload.toEntity();
-    updatedTicket.setId(id);
+    updatedTicket.setId(ticket.get().getId());
     updatedTicket = ticketRepository.save(updatedTicket);
     return new TicketDTO(updatedTicket);
   }

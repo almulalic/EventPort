@@ -16,6 +16,10 @@ public class JwtService {
   @Value("${security.jwt.secret}")
   private String jwtSigningKey;
 
+  public String extractId(String token) {
+    return extractClaim(token, Claims::getId);
+  }
+
   public String extractUserName(String token) {
     return extractClaim(token, Claims::getSubject);
   }
