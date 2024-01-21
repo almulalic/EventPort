@@ -17,3 +17,7 @@ body {
 code {
 	font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
+
+.ant-modal-mask {
+	background-color: unset !important;
+}

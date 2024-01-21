@@ -7,7 +7,7 @@ import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 
-import "./index.css";
+import "./index.scss";
 
 const queryClient = new QueryClient();
 

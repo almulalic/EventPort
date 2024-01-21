@@ -1,9 +1,12 @@
-import { ConfigProvider, theme } from "antd";
-import { Route, Routes } from "react-router-dom";
-import Landing from "./pages/Landing/Landing";
 import Login from "./pages/Login/Login";
 import Events from "./pages/Events/Events";
 import SignUp from "./pages/SignUp/SignUp";
+import { ConfigProvider, theme } from "antd";
+import Landing from "./pages/Landing/Landing";
+import { Route, Routes } from "react-router-dom";
+import AttendingEvents from "./pages/AttendingEvents/AttendingEvents";
+import LikedEvents from "./pages/LikedEvents/LikedEvents";
+import ProcessPayment from "./pages/ProcessPayment/ProcessPayment";
 
 function App() {
 	return (
@@ -34,6 +37,9 @@ function App() {
 				<Route path="/events" element={<Events />} />
 				<Route path="/login" element={<Login />} />
 				<Route path="/signup" element={<SignUp />} />
+				<Route path="/payment/process" element={<ProcessPayment />} />
+				<Route path="/me/attending" element={<AttendingEvents />} />
+				<Route path="/me/liked" element={<LikedEvents />} />
 			</Routes>
 		</ConfigProvider>
 	);
