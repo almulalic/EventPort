@@ -1,6 +1,6 @@
 package ba.edu.ibu.eventport.api.services;
 
-import ba.edu.ibu.eventport.api.core.model.Event;
+import ba.edu.ibu.eventport.api.core.model.event.Event;
 import ba.edu.ibu.eventport.api.core.model.enums.EventStatus;
 import ba.edu.ibu.eventport.api.core.repository.EventRepository;
 import ba.edu.ibu.eventport.api.core.service.EventService;
