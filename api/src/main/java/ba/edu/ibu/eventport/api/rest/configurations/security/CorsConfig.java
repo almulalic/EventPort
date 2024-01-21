@@ -1,4 +1,4 @@
-package ba.edu.ibu.eventport.auth.rest.configuration;
+package ba.edu.ibu.eventport.api.rest.configurations.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

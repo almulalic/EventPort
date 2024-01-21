@@ -33,10 +33,10 @@ public class SecurityConfiguration {
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     return http.csrf(AbstractHttpConfigurer::disable)
              .authorizeHttpRequests(request -> request
-                                                 .requestMatchers(HttpMethod.GET, "/api/books/**").permitAll()
-                                                 .requestMatchers("/api/events/**").authenticated()
-                                                 .anyRequest()
-                                                 .permitAll()
+                                                 .requestMatchers(HttpMethod.OPTIONS).permitAll()
+                                                 .requestMatchers("/api/event/*/ticket/**").authenticated()
+                                                 .requestMatchers("/api/event/user/**").authenticated()
+                                                 .anyRequest().permitAll()
              )
              .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
              .authenticationProvider(authenticationProvider())
