@@ -22,7 +22,7 @@ public class AuthController {
   }
 
   @RequestMapping(method = RequestMethod.POST, path = "/signup")
-  public ResponseEntity<User> createUser(
+  public ResponseEntity<User>   createUser(
     @Valid
     @RequestBody
     CreateUserDTO dto
