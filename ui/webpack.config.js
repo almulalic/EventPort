@@ -11,6 +11,7 @@ module.exports = (env) => {
 		},
 		devServer: {
 			port: 3000,
+			allowedHosts: "all",
 		},
 		resolve: {
 			modules: [__dirname, "src", "node_modules"],
