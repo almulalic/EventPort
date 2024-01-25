@@ -1,8 +1,8 @@
 import HowItWorksCard from "./sections/HowItWorksCard";
 import CollapsibleSection from "../../components/CollapsibleSection/CollapsibleSection";
-import FindEventsSvg from "/Users/admin/Desktop/fagz/Web_Engineering/project/EventPort/frontend/src/assets/svg/undraw_search.svg";
-import CreditCardSvg from "/Users/admin/Desktop/fagz/Web_Engineering/project/EventPort/frontend/src/assets/svg/undraw_credit_card.svg";
-import UndrawSignUp from "/Users/admin/Desktop/fagz/Web_Engineering/project/EventPort/frontend/src/assets/svg/undraw_sign_up.svg";
+import FindEventsSvg from "../../assets/svg/undraw_search.svg";
+import CreditCardSvg from "../../assets/svg/undraw_credit_card.svg";
+import UndrawSignUp from "../../assets/svg/undraw_sign_up.svg";
 
 import "./About.scss";
 
