@@ -15,4 +15,4 @@ COPY --from=builder /app/target/eventport-api.jar ./target/eventport-api.jar
 
 EXPOSE 8101
 
-CMD ["java", "-jar", "target/eventport-api.jar"]
+ENTRYPOINT ["java", "-jar", "target/eventport-api.jar", "--spring.config.location=file:/secrets/application.yml"]
