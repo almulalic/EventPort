@@ -1,0 +1,15 @@
+@import "src/assets/styles/colors";
+
+#event-filter {
+	label {
+		font-size: 1rem;
+	}
+
+	.event-filter-cascader {
+		width: 15rem;
+	}
+
+	.event-filter-order-select {
+		width: 10rem;
+	}
+}

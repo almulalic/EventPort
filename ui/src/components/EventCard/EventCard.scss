@@ -1,0 +1,97 @@
+@import "src/assets/styles/colors";
+
+.event-card {
+	width: 300px;
+	max-width: 400px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	color: white;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+	border-radius: 1.5rem;
+	padding: 0.5rem;
+
+	&-img {
+		position: relative;
+		width: 275px;
+		height: 250px;
+		border-radius: 1.5rem;
+	}
+
+	&-content {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		gap: 0.5rem;
+
+		padding: 1rem;
+		width: 100%;
+
+		.event-card-info {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			font-size: 1.2rem;
+			margin-bottom: 0.25rem;
+
+			.event-card-likes {
+				display: flex;
+				justify-content: center;
+				align-items: flex-start;
+				gap: 0.5rem;
+				font-size: 1.2rem;
+			}
+
+			.event-card-liked-true {
+				color: $colorPrimary;
+			}
+
+			.event-card-liked-true:hover {
+				color: white;
+			}
+
+			.event-card-liked-false {
+				color: white;
+			}
+
+			.event-card-liked-false:hover {
+				color: $colorPrimary;
+			}
+
+			.event-card-likes-icon {
+				transition: color 0.3s ease;
+				user-select: none;
+			}
+		}
+
+		.event-card-countdown-timer {
+			margin-bottom: 0.5rem;
+			font-size: 0.9rem;
+		}
+
+		.event-card-label {
+			display: flex;
+			justify-content: flex-start;
+			align-items: center;
+			gap: 0.3rem;
+			font-size: 1rem;
+
+			&-icon {
+				font-size: 0.8rem;
+				color: $colorPrimary;
+			}
+
+			&-name {
+				line-height: 1;
+				font-size: 0.8rem;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+			}
+		}
+	}
+
+	&:hover {
+		background-color: rgba(39, 39, 39, 0.8);
+	}
+}

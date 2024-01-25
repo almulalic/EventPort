@@ -1,0 +1,25 @@
+#events-in-focus {
+	.header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		color: white;
+		font-size: 1rem;
+
+		.navigation {
+			display: flex;
+			gap: 1rem;
+			font-weight: bold;
+		}
+
+		.navigation-button {
+			cursor: pointer;
+		}
+	}
+
+	.events {
+		display: flex;
+		overflow-x: scroll;
+		gap: 1.5rem;
+	}
+}
