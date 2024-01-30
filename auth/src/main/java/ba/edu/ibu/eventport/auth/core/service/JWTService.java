@@ -1,5 +1,6 @@
 package ba.edu.ibu.eventport.auth.core.service;
 
+import ba.edu.ibu.eventport.auth.core.model.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
@@ -29,8 +30,15 @@ public class JWTService {
     return Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSigningKey));
   }
 
-  public String generateToken(UserDetails userDetails) {
-    return generateToken(new HashMap<>(), userDetails);
+  public String generateToken(User user) {
+    Map<String, Object> claims = new HashMap<>();
+    claims.put("id", user.getId());
+    claims.put("username", user.getEmail());
+    claims.put("firstName", user.getFirstName());
+    claims.put("lastName", user.getLastName());
+    claims.put("email", user.getEmail());
+
+    return generateToken(claims, user);
   }
 
   private String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {

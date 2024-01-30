@@ -108,6 +108,8 @@
     </dependencies>
 
     <build>
+        <finalName>eventport-api</finalName>
+
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

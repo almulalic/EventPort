@@ -1,7 +1,9 @@
 package ba.edu.ibu.eventport.api.rest.filters;
 
+import ba.edu.ibu.eventport.api.rest.models.auth.User;
 import com.mongodb.lang.NonNull;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import org.apache.commons.lang3.StringUtils;
@@ -42,10 +44,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     jwt = authHeader.substring(7);
+
     userEmail = jwtService.extractUserName(jwt);
 
     if (StringUtils.isNotEmpty(userEmail) && SecurityContextHolder.getContext().getAuthentication() == null) {
       Claims claims = jwtService.extractAllClaims(jwt);
+      request.setAttribute("user", User.fromJwt(claims));
 
       if (jwtService.isTokenValid(jwt)) {
         SecurityContext context = SecurityContextHolder.createEmptyContext();

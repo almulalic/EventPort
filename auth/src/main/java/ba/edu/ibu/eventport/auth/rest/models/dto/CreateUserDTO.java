@@ -2,14 +2,13 @@ package ba.edu.ibu.eventport.auth.rest.models.dto;
 
 
 import ba.edu.ibu.eventport.auth.core.model.User;
-import ba.edu.ibu.eventport.auth.core.model.enums.UserType;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
 import java.util.Date;
 
-@JsonIgnoreProperties(ignoreUnknown = false)
+@JsonIgnoreProperties()
 public class CreateUserDTO {
   @NotBlank(message = "First Name can not be empty")
   private String firstName;
@@ -18,8 +17,8 @@ public class CreateUserDTO {
   @Email
   @NotBlank(message = "Email can not be empty!")
   private String email;
-  @NotBlank(message = "Username can not be empty!")
-  private String username;
+  @NotBlank(message = "Display name can not be empty!")
+  private String displayName;
   @NotBlank(message = "Password can not be empty!")
   private String password;
 
@@ -30,7 +29,7 @@ public class CreateUserDTO {
     this.firstName = user.getFirstName();
     this.lastName = user.getLastName();
     this.email = user.getEmail();
-    this.username = user.getUsername();
+    this.displayName = user.getDisplayName();
     this.password = user.getPassword();
   }
 
@@ -39,7 +38,7 @@ public class CreateUserDTO {
     user.setFirstName(firstName);
     user.setLastName(lastName);
     user.setEmail(email);
-    user.setUsername(username);
+    user.setDisplayName(displayName);
     user.setPassword(password);
     user.setCreationDate(new Date());
     return user;
@@ -69,12 +68,12 @@ public class CreateUserDTO {
     this.email = email;
   }
 
-  public String getUsername() {
-    return username;
+  public String getDisplayName() {
+    return displayName;
   }
 
-  public void setUsername(String username) {
-    this.username = username;
+  public void setDisplayName(String displayName) {
+    this.displayName = displayName;
   }
 
   public String getPassword() {

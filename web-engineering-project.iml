@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module version="4">
+  <component name="AdditionalModuleElements">
+    <content url="file://$MODULE_DIR$" dumb="true">
+      <sourceFolder url="file://$MODULE_DIR$/api/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/api/src/main/resources" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/api/src/test" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/auth/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/auth/src/main/resources" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/auth/src/test" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/registry/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/registry/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/registry/src/main/resources" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/registry/src/test" isTestSource="true" />
+      <excludeFolder url="file://$MODULE_DIR$/api/target" />
+      <excludeFolder url="file://$MODULE_DIR$/auth/target" />
+      <excludeFolder url="file://$MODULE_DIR$/registry/target" />
+    </content>
+  </component>
+</module>

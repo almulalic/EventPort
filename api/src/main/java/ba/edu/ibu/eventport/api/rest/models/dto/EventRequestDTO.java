@@ -1,12 +1,19 @@
 package ba.edu.ibu.eventport.api.rest.models.dto;
 
-import ba.edu.ibu.eventport.api.core.model.Event;
+import ba.edu.ibu.eventport.api.core.model.event.Event;
 import ba.edu.ibu.eventport.api.core.model.enums.EventStatus;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,15 +24,46 @@ import lombok.Builder;
 @AllArgsConstructor
 @Builder(builderMethodName = "Builder", builderClassName = "Builder", setterPrefix = "with")
 public class EventRequestDTO {
+  @NotEmpty
   private String name;
+
+  @NotEmpty
   private String description;
-  private Date dateTime;
-  private String location;
-  private List<Integer> participants = new ArrayList<>();
-  private String type;
+
+  @NotEmpty
+  @Future
+  private LocalDateTime dateTime;
+
+  @NotEmpty
+  private String venue;
+
+  @NotEmpty
+  private String city;
+
+  @NotEmpty
+  private String countryIso2Code;
+
+  @Email.List(
+    {
+      @Email(message = "Invalid email address"),
+    }
+  )
+  private List<Integer> notificationList = new ArrayList<>();
+
+  @NotEmpty
+  private String category;
+
   private EventStatus status;
+
+  @NotEmpty
+  @Positive
   private int capacity;
-  private Date registrationDeadline;
+
+  @NotEmpty
+  @Future
+  private LocalDateTime registrationDeadline;
+
+  @NotEmpty
   private String bannerImageURL;
 
   public Event toEntity() {
@@ -33,9 +71,7 @@ public class EventRequestDTO {
              .withName(name)
              .withDescription(description)
              .withDateTime(dateTime)
-             .withLocation(location)
-             .withParticipants(participants)
-             .withType(type)
+             .withVenue(venue)
              .withStatus(status)
              .withCapacity(capacity)
              .withRegistrationDeadline(registrationDeadline)

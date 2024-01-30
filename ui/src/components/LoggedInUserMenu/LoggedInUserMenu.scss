@@ -1,0 +1,18 @@
+#logged-in-user-menu {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 2rem;
+
+	.logged-in-user-action-dropdown {
+		cursor: pointer;
+		color: white;
+	}
+
+	.account-action-create-event {
+		color: white;
+		font-size: 1.3rem;
+		align-self: center;
+		transition: color 0.3s ease;
+	}
+}
