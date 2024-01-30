@@ -17,7 +17,6 @@ export default function CollapsibleSection(props: CollapsibleSectionProps) {
 
 	useEffect(() => {
 		if (contentRef.current) {
-			console.log(contentRef.current.clientHeight);
 			setContentHeight(contentRef.current.clientHeight);
 		}
 	}, [isExpanded, props.children]);

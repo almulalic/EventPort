@@ -1,3 +1,5 @@
+@import "src/assets/styles/constants";
+
 #events-in-focus {
 	.header {
 		display: flex;
@@ -5,6 +7,10 @@
 		align-items: center;
 		color: white;
 		font-size: 1rem;
+
+		@media (max-width: $sm) {
+			font-size: 0.8rem;
+		}
 
 		.navigation {
 			display: flex;

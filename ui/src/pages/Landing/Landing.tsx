@@ -1,16 +1,12 @@
-import { message } from "antd";
 import { useEffect } from "react";
+import { Layout, message } from "antd";
+import { Content } from "antd/es/layout/layout";
 import { useSearchParams } from "react-router-dom";
-import Navbar from "../../containers/Navbar/Navbar";
-import Footer from "../../containers/Footer/Footer";
-import { About } from "../../containers/About/About";
-import Layout, { Content } from "antd/es/layout/layout";
-import EventsInFocus from "../../containers/EventsInFocus/EventsInFocus";
-import EventSlideshow from "../../containers/EventSlideshow/EventSlideshow";
+import { About, EventSlideshow, EventsInFocus, Footer, Navbar, Sidebar } from "../../containers";
 
 import "./Landing.scss";
 
-export default function Landing() {
+export function Landing() {
 	const [searchParams] = useSearchParams();
 	const [messageApi, contextHolder] = message.useMessage();
 
@@ -39,6 +35,7 @@ export default function Landing() {
 	return (
 		<Layout id="landing">
 			<Navbar />
+			<Sidebar />
 			<Content id="landing-content">
 				<EventSlideshow />
 				<EventsInFocus />

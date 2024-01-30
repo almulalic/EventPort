@@ -1,6 +1,7 @@
 import { Button } from "antd";
 import { RootState } from "../../store";
 import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 import { createSearchParams, useNavigate } from "react-router-dom";
 import { LoggedInUserMenu } from "../../components/LoggedInUserMenu/LoggedInUserMenu";
 
@@ -9,34 +10,39 @@ import "./Navbar.scss";
 const items = [
 	{
 		key: 0,
-		label: "Concerts",
+		label: "Electronics",
+		value: "Electronics",
 	},
 	{
 		key: 1,
-		label: "Sports",
+		label: "Automotive",
+		value: "Automotive",
 	},
 	{
 		key: 2,
-		label: "Theater",
-	},
-	{
-		key: 3,
-		label: "Festivals",
-	},
-	{
-		key: 4,
-		label: "Workshops",
-	},
-	{
-		key: 5,
-		label: "Exibitions",
+		label: "Travel And Adventure",
+		value: "Traven And Adventure",
 	},
 ];
 
-export default function Navbar() {
+export function Navbar() {
 	const navigate = useNavigate();
+	const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
 
 	const { userInfo } = useSelector((state: RootState) => state.auth);
+
+	useEffect(() => {
+		const handleResize = () => {
+			const newViewportWidth = window.innerWidth;
+			setViewportWidth(newViewportWidth);
+		};
+
+		window.addEventListener("resize", handleResize);
+
+		return () => {
+			window.removeEventListener("resize", handleResize);
+		};
+	}, []);
 
 	return (
 		<header className="navbar">
@@ -45,12 +51,6 @@ export default function Navbar() {
 					<span className="navbar-main-menu-logo" onClick={() => navigate("/")}>
 						EVENTPORT
 					</span>
-
-					<div className="navbar-main-menu-container">
-						<span className="navbar-main-menu-item" onClick={() => navigate("/events")}>
-							Events
-						</span>
-					</div>
 				</div>
 
 				<div className="navbar-account-actions">
@@ -75,19 +75,32 @@ export default function Navbar() {
 			</div>
 			<div className="navbar-categories-header">
 				<hr className="navbar-hr" />
-				<div className="navbar-categories-menu">
-					{items.map((x) => (
-						<span
-							key={x.key.toString()}
-							className="navbar-categories-menu-item"
-							onClick={() =>
-								navigate({ pathname: "/events", search: `?${createSearchParams({ category: x.label.toLowerCase() })}` })
-							}
-						>
-							{x.label}
+				{viewportWidth < 576 ? (
+					<div className="navbar-categories-menu">
+						<span className="navbar-main-menu-item">
+							<span className="navbar-categories-menu-item" onClick={() => navigate(`/events`)}>
+								Events
+							</span>
 						</span>
-					))}
-				</div>
+					</div>
+				) : (
+					<div className="navbar-categories-menu">
+						{items.map((x) => (
+							<span
+								key={x.key.toString()}
+								className="navbar-categories-menu-item"
+								onClick={() =>
+									navigate({
+										pathname: "/events",
+										search: `?${createSearchParams({ categories: [x.value] })}`,
+									})
+								}
+							>
+								{x.label}
+							</span>
+						))}
+					</div>
+				)}
 				<hr className="navbar-hr" />
 			</div>
 		</header>

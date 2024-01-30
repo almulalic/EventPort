@@ -7,15 +7,30 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * Controller handling API endpoints related to notifications.
+ */
 @RestController
 @RequestMapping(path = "/api/notifications")
 public class NotificationController {
+
   private final NotificationService notificationService;
 
+  /**
+   * Constructor for NotificationController.
+   *
+   * @param notificationService NotificationService instance.
+   */
   public NotificationController(NotificationService notificationService) {
     this.notificationService = notificationService;
   }
 
+  /**
+   * Send a broadcast message to all connected clients.
+   *
+   * @param message MessageDTO containing the message details.
+   * @return ResponseEntity with HttpStatus.NO_CONTENT.
+   */
   @RequestMapping(path = "/broadcast", method = RequestMethod.POST)
   public ResponseEntity<Void> sendBroadcastMessage(
     @RequestBody MessageDTO message
@@ -25,6 +40,13 @@ public class NotificationController {
     return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
   }
 
+  /**
+   * Send a chat message to a specific user identified by userId.
+   *
+   * @param userId  String representing the user ID.
+   * @param message MessageDTO containing the message details.
+   * @return ResponseEntity with HttpStatus.NO_CONTENT.
+   */
   @RequestMapping(path = "/send-to/{userId}", method = RequestMethod.POST)
   @PreAuthorize("hasAnyAuthority('LIBRARIAN', 'ADMIN')")
   public ResponseEntity<Void> sendChatMessage(

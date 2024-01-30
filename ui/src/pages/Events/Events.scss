@@ -1,3 +1,5 @@
+@import "src/assets/styles/constants";
+
 #events {
 	width: 100%;
 
@@ -7,49 +9,53 @@
 
 		width: 100%;
 		background-color: rgb(49, 49, 49);
-		padding: 2rem 5rem;
+		padding: 2rem 4rem;
+
+		@media (max-width: $sm) {
+			padding: 2rem;
+		}
+
+		@media (max-width: $lg) {
+			padding: 2rem 4rem;
+		}
 
 		h1 {
 			color: white;
 		}
 
 		&-filter {
-			height: 7rem;
 			padding: 1rem;
 			background-color: rgb(39, 39, 39);
 			display: flex;
 			flex-direction: column;
 			align-items: center;
 			justify-content: center;
-			gap: 1rem;
-			border-radius: 1.5rem;
+			gap: 2rem;
+			border-radius: 1rem;
 
 			&-search {
 				width: 50%;
 			}
-		}
 
-		.events-wrapper {
-			padding-top: 5rem;
-			display: flex;
-			justify-content: flex-start;
-			align-items: center;
-			flex-wrap: wrap;
-			column-gap: 6rem;
-			row-gap: 2.5rem;
-		}
+			@media (max-width: $xl) {
+				padding-top: 2rem;
+				padding-bottom: 2rem;
 
-		.events-pagination {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			justify-content: center;
-			margin-top: 2rem;
-			gap: 1rem;
+				&-search {
+					width: 70%;
+				}
+			}
 
-			.events-pagination-total {
-				color: white;
-				font-size: 0.9rem;
+			@media (max-width: $lg) {
+				&-search {
+					width: 80%;
+				}
+			}
+
+			@media (max-width: $lg) {
+				&-search {
+					width: 80%;
+				}
 			}
 		}
 	}

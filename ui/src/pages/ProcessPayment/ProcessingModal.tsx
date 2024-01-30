@@ -1,7 +1,8 @@
 import { Modal, Spin } from "antd";
+import { sleep } from "../../utils/utils";
 import { useEffect, useState } from "react";
 import { LoadingOutlined } from "@ant-design/icons";
-import { AuthorizedAPIService } from "../../services/AuthorizedApiService";
+import { EventApiService } from "../../api/services/EventApiService";
 
 export interface ProcessingModalProps {
 	eventId: string;
@@ -15,14 +16,20 @@ export default function ProcessingModal({ eventId, ticketName, isModalOpen, onCa
 	const [error, setError] = useState(null);
 
 	async function processPayment() {
-		const response = await AuthorizedAPIService.buyTicket(eventId, ticketName);
+		const response = await EventApiService.buyTicket(eventId, ticketName);
 
 		if (response.status === 200) {
 			setError(null);
 			setProcessing(false);
+
+			await sleep(2000);
+			onCancle(true);
 		} else {
 			setError(response.data.message);
 			setProcessing(false);
+
+			await sleep(2000);
+			onCancle(false);
 		}
 	}
 

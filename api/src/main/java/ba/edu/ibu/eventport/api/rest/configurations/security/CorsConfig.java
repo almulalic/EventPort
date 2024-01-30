@@ -1,28 +1,36 @@
 package ba.edu.ibu.eventport.api.rest.configurations.security;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
+import org.springframework.web.cors.CorsConfigurationSource;
+
+import java.util.List;
 
 @Configuration
 public class CorsConfig {
 
+  @Value("${cors.allowed-origins}")
+  private List<String> allowedOrigins;
+
+  @Value("${cors.allowed-methods}")
+  private List<String> allowedMethods;
+
+  @Value("${cors.allowed-headers}")
+  private List<String> allowedHeaders;
+
   @Bean
-  public CorsFilter corsFilter() {
+  public CorsConfigurationSource corsConfigurationSource() {
+    CorsConfiguration corsConfiguration = new CorsConfiguration();
+    corsConfiguration.setAllowedOrigins(allowedOrigins);
+    corsConfiguration.setAllowedMethods(allowedMethods);
+    corsConfiguration.setAllowedHeaders(allowedHeaders);
+
     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-    CorsConfiguration config = new CorsConfiguration();
+    source.registerCorsConfiguration("/**", corsConfiguration);
 
-    // Allow all origins, methods, and headers
-    config.addAllowedOriginPattern("*");
-    config.addAllowedMethod("*");
-    config.addAllowedHeader("*");
-
-    // Allow credentials
-    config.setAllowCredentials(true);
-
-    source.registerCorsConfiguration("/**", config);
-    return new CorsFilter(source);
+    return source;
   }
 }

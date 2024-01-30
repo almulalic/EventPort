@@ -1,104 +1,121 @@
-import { Button, Pagination } from "antd";
 import { RootState } from "../../store";
-import { useSelector } from "react-redux";
 import Search from "antd/es/input/Search";
-import Page from "../../components/Page/Page";
+import { useEffect, useState } from "react";
+import Page from "../../containers/Page/Page";
+import { findFirstMultipleOf } from "../../utils";
+import { widthThresholds } from "../../constants";
 import { useSearchParams } from "react-router-dom";
+import { EventApiService } from "../../api/services";
+import { useDispatch, useSelector } from "react-redux";
 import EventCard from "../../components/EventCard/EventCard";
-import { RefObject, useEffect, useRef, useState } from "react";
 import EventFilter from "../../components/EventFilter/EventFilter";
-import { PublicAPIService } from "../../services/PublicApiService";
-
-import "./Events.scss";
+import { change_current_page } from "../../store/eventFilterSlice";
 import CreateEventModal from "../../components/CreateEventModal/CreateEventModal";
 
-export default function Events() {
-	const eventCardRef: RefObject<HTMLDivElement> = useRef(null);
+import "./Events.scss";
+import { set_create_modal_visible } from "../../store/eventPageSlice";
+import EventsList from "../../containers/Events/EventsList";
 
+export function Events() {
 	const [events, setEvents] = useState([] as any[]);
 	const [searchParams] = useSearchParams();
 
 	const [searchText, setSearchText] = useState(searchParams.get("searchText") || "");
-	const [isLoading, setLoading] = useState(true);
-	const [currentPage, setCurrentPage] = useState(0);
+	const [eventsLoading, setEventsLoading] = useState(true);
 	const [totalResults, setTotalResults] = useState(100);
 
-	const { pageSize, geolocationCountriesURI, geolocationCitiesURI, categoriesURI, startDate, endDate } = useSelector(
-		(state: RootState) => state.eventFilter
-	);
+	const dispatch = useDispatch();
 
-	async function getEvents() {
-		setLoading(true);
+	const {
+		filtersLoading,
+		pageSize,
+		currentPage,
+		geolocationCountriesURI,
+		geolocationCitiesURI,
+		categoriesURI,
+		startDate,
+		endDate,
+		sort,
+	} = useSelector((state: RootState) => state.eventFilter);
 
-		const events = await PublicAPIService.getAll(
+	async function getEvents(categories: any) {
+		setEventsLoading(true);
+
+		const eventsResponse = await EventApiService.getAll(
 			searchText,
 			geolocationCountriesURI,
 			geolocationCitiesURI,
-			categoriesURI,
+			categoriesURI || categories,
 			startDate,
 			endDate,
 			currentPage,
-			pageSize
+			pageSize,
+			sort
 		);
 
-		setEvents(events.data.content);
-		setTotalResults(events.data.totalElements);
+		const events: any[] = eventsResponse.data.content;
 
-		setLoading(false);
+		const treshold = widthThresholds.filter((x) => window.innerWidth <= x.width);
+		const cardLimit = findFirstMultipleOf(events.length, treshold[treshold.length - 1].maxCards)!;
+		for (let i = events.length; i < cardLimit; ++i) {
+			events.push("GHOST");
+		}
+
+		setEvents(events);
+		setTotalResults(eventsResponse.data.totalElements);
+		setEventsLoading(false);
 	}
 
 	useEffect(() => {
-		getEvents();
-	}, [searchText, pageSize, geolocationCountriesURI, geolocationCitiesURI, categoriesURI, startDate, endDate]);
-
-	const onPageChange = (page: any) => {
-		setCurrentPage(page);
-	};
+		if (searchParams.get("create")) {
+			dispatch(set_create_modal_visible(true));
+		}
+		getEvents(searchParams.get("categories"));
+	}, [
+		searchText,
+		pageSize,
+		currentPage,
+		geolocationCountriesURI,
+		geolocationCitiesURI,
+		categoriesURI,
+		startDate,
+		endDate,
+		sort,
+		searchParams.get("categories"),
+	]);
 
 	const onSearchChange = (e: any) => {
 		setSearchText(e.target.value);
 	};
 
-	const [isCreateModalVisible, setCreateModalVisible] = useState(false);
-
 	return (
 		<Page id="events">
 			<div className="events-section">
 				<div className="events-section-filter">
-					<Button
-						className="account-action account-action-login"
-						size="large"
-						onClick={() => setCreateModalVisible(true)}
-					>
-						Create Event
-					</Button>
 					<Search
 						className="events-section-filter-search"
 						placeholder="Find events by name, venue, city..."
-						loading={isLoading}
+						loading={eventsLoading || filtersLoading}
 						size="large"
 						onChange={onSearchChange}
 						value={searchText}
 					/>
-					<EventFilter />
+					<EventFilter eventsLoading={eventsLoading} />
 				</div>
-				<div className="events-wrapper" ref={eventCardRef}>
-					{events.map((x, i) => (
-						<EventCard key={i} event={x} overview={false} />
-					))}
-				</div>
-				<div className="events-pagination">
-					<Pagination
-						defaultCurrent={currentPage}
-						total={totalResults}
-						disabled={isLoading}
-						showSizeChanger={false}
-						onChange={onPageChange}
-					/>
-					<div className="events-pagination-total">Total {totalResults} items</div>
-				</div>
+
+				<EventsList
+					currentPage={currentPage}
+					loading={eventsLoading}
+					events={events}
+					totalResults={totalResults}
+					cardRenderer={(x: any, i: any) => <EventCard key={i} event={x} />}
+					onPageChange={(page: any) => {
+						dispatch(change_current_page(page - 1));
+					}}
+				/>
 			</div>
-			<CreateEventModal isModalOpen={isCreateModalVisible} handleCancel={() => setCreateModalVisible(false)} />
+
+			<CreateEventModal />
 		</Page>
 	);
 }

@@ -37,6 +37,8 @@ public class JWTService {
     claims.put("firstName", user.getFirstName());
     claims.put("lastName", user.getLastName());
     claims.put("email", user.getEmail());
+    claims.put("assignedRoles", user.getAssignedRoles());
+    claims.put("authType", user.getAuthType());
 
     return generateToken(claims, user);
   }

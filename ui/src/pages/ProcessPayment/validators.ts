@@ -1,4 +1,6 @@
+import { Form, FormInstance } from "antd";
 import { DateTime } from "luxon";
+import validator from "validator";
 
 export const validateCreditCardNumber = (rule: any, value: any) => {
 	const cleanedNumber = value.replace(/\D/g, "");
@@ -30,22 +32,20 @@ export const validateFutureDate = (_: any, value: any) => {
 	return Promise.resolve();
 };
 
-export const validateHasTicker = async (_: any, names: any) => {
+export const validateHasTickets = async (_: any, names: any) => {
 	if (!names || names.length < 1) {
 		return Promise.reject(new Error("At least 1 ticket type"));
 	}
 };
 
 export const validateURL = (_: any, value: any) => {
-	if (value && !/^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/.test(value)) {
+	if (value && !validator.isURL(value)) {
 		return Promise.reject("Invalid URL");
 	}
 	return Promise.resolve();
 };
 
 export const validateCategoriesCascader = (_: any, value: any) => {
-	console.log(value);
-
 	if (!value || value.length === 0) {
 		return Promise.reject("Please select at least one category!");
 	} else if (value.length > 3) {
@@ -53,4 +53,46 @@ export const validateCategoriesCascader = (_: any, value: any) => {
 	}
 
 	return Promise.resolve();
+};
+
+export const validateCapacity = (_: any, value: any) => {
+	if (value < 1) {
+		return Promise.reject("Capacity must be at least 1!");
+	}
+
+	return Promise.resolve();
+};
+
+export const validateTicketPrice = (_: any, value: any) => {
+	if (value < 1) {
+		return Promise.reject("Ticket price must be at least 1!");
+	}
+
+	return Promise.resolve();
+};
+
+export const validateTicketQuantities = (form: FormInstance, value: any) => {
+	const capacity: number = form.getFieldValue("capacity");
+	const quantities: number[] = form.getFieldValue("ticketTypes").map((x: any) => x.quantity);
+	const ticketQuantities: number = quantities.reduce((acc, curr) => acc + curr, 0);
+
+	if (ticketQuantities == capacity) {
+		return Promise.resolve();
+	} else {
+		return Promise.reject("Sum of available ticket type quantities must be equal to the capacity of the event!");
+	}
+};
+
+export const validateTicketNames = (form: FormInstance, value: any) => {
+	const names: string = form.getFieldValue("ticketTypes").map((x: any) => x.name);
+
+	if (new Set(names).size === names.length) {
+		return Promise.resolve();
+	} else {
+		return Promise.reject("Ticket type names must be unique!");
+	}
+};
+
+export const validateRequiredCheckbox = (value: any) => {
+	console.log(value);
 };

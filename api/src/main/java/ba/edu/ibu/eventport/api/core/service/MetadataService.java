@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Service class for retrieving metadata information such as countries and categories.
+ */
 @Service
 @RequiredArgsConstructor
 public class MetadataService {
@@ -16,10 +19,20 @@ public class MetadataService {
   private final CountryRepository countryRepository;
   private final CategoryRepository categoryRepository;
 
+  /**
+   * Retrieves a list of all countries.
+   *
+   * @return List of countries.
+   */
   public List<Country> getCountries() {
     return countryRepository.findAll();
   }
 
+  /**
+   * Retrieves a list of all categories.
+   *
+   * @return List of categories.
+   */
   public List<Category> getCategories() {
     return categoryRepository.findAll();
   }

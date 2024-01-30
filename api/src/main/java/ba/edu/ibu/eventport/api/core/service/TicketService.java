@@ -1,7 +1,7 @@
 package ba.edu.ibu.eventport.api.core.service;
 
 import ba.edu.ibu.eventport.api.core.repository.TicketRepository;
-import ba.edu.ibu.eventport.api.exceptions.repository.ResourceNotFoundException;
+import ba.edu.ibu.eventport.api.exception.repository.ResourceNotFoundException;
 import ba.edu.ibu.eventport.api.rest.models.dto.TicketDTO;
 import ba.edu.ibu.eventport.api.rest.models.dto.TicketRequestDTO;
 import lombok.RequiredArgsConstructor;

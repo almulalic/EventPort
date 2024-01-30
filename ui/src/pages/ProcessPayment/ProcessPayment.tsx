@@ -1,22 +1,24 @@
 import { RootState } from "../../store";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import Page from "../../components/Page/Page";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import Page from "../../containers/Page/Page";
 import ProcessingModal from "./ProcessingModal";
 import { validateFutureDate } from "./validators";
-import Footer from "../../containers/Footer/Footer";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { Button, Card, DatePicker, Form, Input, Segmented } from "antd";
 import CreditCardInput from "../../components/CreditCardInput/CreditCardInput";
 
 import "./ProcessPayment.scss";
+import { useAuthCheck } from "../../utils";
 
-export default function ProcessPayment() {
+export function ProcessPayment() {
 	const [isLoading, setLoading] = useState(false);
 	const [isModalOpen, setModalOpen] = useState(false);
 	const [searchParams] = useSearchParams();
 
 	const navigate = useNavigate();
+
+	useAuthCheck([]);
 
 	const { userInfo } = useSelector((state: RootState) => state.auth);
 
@@ -41,7 +43,7 @@ export default function ProcessPayment() {
 		setModalOpen(false);
 
 		if (isPaid) {
-			navigate("/me/attending");
+			navigate("/me/events");
 		} else {
 			navigate("/events");
 		}

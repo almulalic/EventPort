@@ -9,5 +9,4 @@ class EventPortAPIApplicationTests {
   @Test
   void contextLoads() {
   }
-
 }

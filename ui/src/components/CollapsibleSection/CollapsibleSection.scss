@@ -1,3 +1,5 @@
+@import "src/assets/styles/constants";
+
 #collapsible-section {
 	width: 100%;
 	position: relative;
@@ -14,6 +16,14 @@
 
 		.collapsible-section-title {
 			font-size: 2rem;
+
+			@media (max-width: $md) {
+				font-size: 1.5rem;
+			}
+
+			@media (max-width: $sm) {
+				font-size: 1rem;
+			}
 		}
 	}
 

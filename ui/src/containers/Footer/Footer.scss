@@ -1,69 +1,69 @@
+@import "src/assets/styles/constants";
+
 #footer {
 	background: rgb(49, 49, 49);
+	display: flex;
+	align-items: center;
+	justify-content: center;
 	text-align: center;
 	width: 100%;
+	padding-top: 3rem;
 
-	.footer-row {
-		width: 100%;
-		margin: 1rem 0%;
-		padding: 0.6% 0%;
-		color: gray;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		gap: 2rem;
-
-		a {
-			color: gray;
-		}
-
-		a:hover {
-			color: #fff;
-		}
+	@media (max-width: $xs) {
+		padding: 2rem 1rem;
 	}
 
-	.social-media {
-		font-size: 0.8rem;
+	.footer-social-media {
+		color: gray;
 
-		a {
+		svg {
 			text-decoration: none;
 			transition: 0.5s;
-			font-size: 1.5rem;
+			font-size: 1.7rem;
 		}
 
-		a:hover {
+		svg:hover {
 			color: #fff;
 		}
 	}
 
-	.links {
-		ul {
-			width: 100%;
+	.footer-wrapper {
+		width: 50%;
+
+		@media (max-width: $md) {
+			width: 80%;
 		}
 
-		ul li {
-			display: inline-block;
-			margin: 0px 30px;
-			color: gray;
+		@media (max-width: $sm) {
+			width: 90%;
+		}
+	}
+
+	.footer-links {
+		color: gray;
+		font-size: 1rem;
+
+		svg {
+			text-decoration: none;
+			transition: 0.5s;
+			font-size: 2rem;
+		}
+
+		svg:hover {
+			color: #fff;
+		}
+
+		@media (max-width: $xs) {
+			width: 100%;
+
+			.ant-col {
+				margin-top: 0.5rem;
+			}
 		}
 	}
 
 	.all-rights-reserved {
-		color: gray;
-	}
-}
-
-@media (max-width: 720px) {
-	.footer {
-		text-align: left;
-		padding: 5%;
-	}
-	.footer .row ul li {
-		display: block;
-		margin: 10px 0px;
-		text-align: left;
-	}
-	.footer .row a i {
-		margin: 0% 3%;
+		font-size: 0.8rem;
+		color: rgb(109, 109, 109);
 	}
 }

@@ -2,11 +2,12 @@ import { useState } from "react";
 import { AxiosResponse } from "axios";
 import Link from "antd/es/typography/Link";
 import { useNavigate } from "react-router-dom";
-import { AuthService } from "../../services/Auth";
+import { AuthAPIService } from "../../api/services";
 import { Alert, Button, Checkbox, Form, Input } from "antd";
 import { FacebookFilled, GoogleSquareFilled, InstagramOutlined, MailOutlined } from "@ant-design/icons";
 
 import "./SignUp.scss";
+import { validateRequiredCheckbox } from "../ProcessPayment";
 
 export type SignUpFormData = {
 	firstName: string;
@@ -16,7 +17,7 @@ export type SignUpFormData = {
 	password: string;
 };
 
-export default function SignUp() {
+export function SignUp() {
 	const [loading, setLoading] = useState(false);
 	const [response, setResponse] = useState("");
 
@@ -25,7 +26,7 @@ export default function SignUp() {
 	const onFinish = async (data: SignUpFormData) => {
 		setLoading(true);
 
-		let response: AxiosResponse = await AuthService.signup(
+		let response: AxiosResponse = await AuthAPIService.signup(
 			data.firstName,
 			data.lastName,
 			data.displayName,
@@ -126,10 +127,9 @@ export default function SignUp() {
 						>
 							<Input.Password placeholder="•••••••••••••••••••••••" disabled={loading} />
 						</Form.Item>
-						<Form.Item>
+						<Form.Item name="agreeWithTOC" rules={[{ required: true, message: "Please agree with TOC!" }]}>
 							<div className="signup-form-additional-options">
-								<Checkbox disabled={loading}>Remember me</Checkbox>
-								<Link disabled={loading}>Forgot your password?</Link>
+								<Checkbox disabled={loading}>Agree with TOC</Checkbox>
 							</div>
 						</Form.Item>
 						<Form.Item>

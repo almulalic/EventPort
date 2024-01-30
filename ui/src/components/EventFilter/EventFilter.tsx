@@ -1,7 +1,7 @@
 import {
-	set_loaded,
-	set_loading,
-	ORDER_BY_OPTIONS,
+	set_filters_loaded,
+	set_filters_loading,
+	SORT_OPTIONS,
 	category_change,
 	geolocation_change,
 	date_range_change,
@@ -13,18 +13,25 @@ import { useEffect, useState } from "react";
 import { AppDispatch, RootState } from "../../store";
 import { useDispatch, useSelector } from "react-redux";
 import { Form, Cascader, DatePicker, Select } from "antd";
+import { useSearchParams } from "react-router-dom";
+import { MetadatService } from "../../api/services";
+import { DATE_TIME_FORMAT } from "../../utils/utils";
 
 import "./EventFilter.scss";
-import { useSearchParams } from "react-router-dom";
-import { MetadatService } from "../../services/MetadataService";
-import { DATE_TIME_FORMAT } from "../../utils/utils";
 
 const { RangePicker } = DatePicker;
 
-export default function EventFilter() {
-	const dispatch = useDispatch<AppDispatch>();
+export interface EventFilterState {
+	eventsLoading: boolean;
+}
 
-	const { isLoading, pageSize, startDate, endDate, order } = useSelector((state: RootState) => state.eventFilter);
+export default function EventFilter({ eventsLoading }: EventFilterState) {
+	const dispatch = useDispatch<AppDispatch>();
+	const [form] = Form.useForm();
+
+	const [viewportWidth, _] = useState(window.innerWidth);
+
+	const { filtersLoading, pageSize, startDate, endDate, sort } = useSelector((state: RootState) => state.eventFilter);
 	const [searchParams] = useSearchParams();
 
 	const [countryCascader, setCountryCascader] = useState({
@@ -37,12 +44,12 @@ export default function EventFilter() {
 	});
 
 	async function loadFilterMetadata() {
-		dispatch(set_loading());
+		dispatch(set_filters_loading());
 
 		await getCountries();
 		await getCategories();
 
-		dispatch(set_loaded());
+		dispatch(set_filters_loaded());
 	}
 
 	useEffect(() => {
@@ -60,12 +67,6 @@ export default function EventFilter() {
 					children: country.cities.map((city: any) => ({ label: city, value: city })),
 				})),
 			});
-
-			if (searchParams.has("categories")) {
-				if (searchParams.get("categories")!.length > 0) {
-					setSelectedCategories(searchParams.get("categories")?.split(",") as any);
-				}
-			}
 		}
 	}
 
@@ -73,12 +74,23 @@ export default function EventFilter() {
 		const categories = await MetadatService.getCategories();
 
 		if (categories.status == 200) {
-			setCategoriesCascader({
+			const categoriesOptions = {
 				options: categories.data.map((category: any) => ({
 					label: category.name,
 					value: category.name,
 				})),
-			});
+			};
+
+			setCategoriesCascader(categoriesOptions);
+
+			if (searchParams.has("categories")) {
+				const paramsCategories: string[] = searchParams.get("categories")!.split(",");
+
+				form.setFieldValue(
+					"categories",
+					categoriesOptions.options.filter((x: any) => paramsCategories.includes(x.value)).map((x: any) => [x.value])
+				);
+			}
 		}
 	}
 
@@ -113,24 +125,25 @@ export default function EventFilter() {
 	return (
 		<div id="event-filter">
 			<Form
+				form={form}
 				className="event-filter"
 				name="event-filter"
-				layout="inline"
+				layout={viewportWidth >= 576 ? "inline" : "horizontal"}
 				initialValues={{ remember: true }}
 				autoComplete="off"
 				requiredMark={false}
 			>
-				<Form.Item label="Showing" colon={false}>
+				<Form.Item label="Showing" name="pageSize" colon={false} initialValue={pageSize.toString()}>
 					<Select
 						className="event-filter-page-size-select"
-						defaultValue={pageSize.toString()}
-						disabled={isLoading}
-						loading={isLoading}
+						loading={filtersLoading || eventsLoading}
+						disabled={filtersLoading || eventsLoading}
 						options={PAGE_SIZE_OPTIONS}
 						onChange={handlePageSizeChange}
 					/>
 				</Form.Item>
-				<Form.Item label="events in" colon={false}>
+
+				<Form.Item label="events in" name="geoLocation" colon={false}>
 					<Cascader
 						id="location-cascader"
 						className="event-filter-cascader"
@@ -139,12 +152,12 @@ export default function EventFilter() {
 						multiple
 						maxTagCount={5}
 						placeholder="Select location..."
-						loading={isLoading}
-						disabled={isLoading}
+						loading={filtersLoading || eventsLoading}
+						disabled={filtersLoading || eventsLoading}
 					/>
 				</Form.Item>
 
-				<Form.Item label="with category" colon={false}>
+				<Form.Item label="with category" name="categories" colon={false} initialValue={searchParams.get("categories")}>
 					<Cascader
 						id="category-cascader"
 						className="event-filter-cascader"
@@ -154,31 +167,36 @@ export default function EventFilter() {
 						multiple
 						maxTagCount={5}
 						placeholder="Select category..."
-						loading={isLoading}
-						disabled={isLoading}
+						loading={filtersLoading || eventsLoading}
+						disabled={filtersLoading || eventsLoading}
 					/>
 				</Form.Item>
-				<Form.Item label="from" colon={false}>
+
+				<Form.Item
+					label="from"
+					name="dateRange"
+					colon={false}
+					initialValue={[
+						dayjs(searchParams.get("startDate") || startDate),
+						dayjs(searchParams.get("endDate") || endDate),
+					]}
+				>
 					<RangePicker
 						showTime={{ format: "HH" }}
 						format={DATE_TIME_FORMAT}
-						defaultValue={[
-							dayjs(searchParams.get("startDate") || startDate),
-							dayjs(searchParams.get("endDate") || endDate),
-						]}
 						allowEmpty={[true, true]}
 						separator="to"
 						onChange={onDateRangeChange}
-						disabled={isLoading}
+						disabled={filtersLoading || eventsLoading}
 					/>
 				</Form.Item>
-				<Form.Item label="ordered by" colon={false}>
+
+				<Form.Item label="sorted by" name="sort" colon={false} initialValue={sort}>
 					<Select
 						className="event-filter-order-select"
-						defaultValue={order}
-						disabled={isLoading}
-						loading={isLoading}
-						options={ORDER_BY_OPTIONS}
+						disabled={filtersLoading || eventsLoading}
+						loading={filtersLoading || eventsLoading}
+						options={SORT_OPTIONS}
 						onChange={handleOrderChange}
 					/>
 				</Form.Item>
