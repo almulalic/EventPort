@@ -1,7 +1,7 @@
 import { DateTime } from "luxon";
 import { Modal, QRCode } from "antd";
-import { Event } from "../../models/Event";
-import { TicketType } from "../../models/TicketType";
+import { Event } from "../../api/models/event/Event";
+import { TicketType } from "../../api/models/ticket/TicketType";
 import { ClockCircleFilled, EnvironmentFilled, LikeFilled, UserOutlined } from "@ant-design/icons";
 
 import "./EventOverviewModal.scss";
@@ -39,7 +39,7 @@ export const EventOverviewModal = ({ event, ticketType, isModalOpen, handleCance
 								<EnvironmentFilled />
 							</span>
 							<span className="event-overview-modal-label-name event-overview-modal-label-link">
-								<a target="_blank" href={event.googleMapsLink}>
+								<a target="_blank" href={event.googleMapsURL}>
 									{event.geoLocation.country},{event.geoLocation.city} @ {event.venue}
 								</a>
 							</span>

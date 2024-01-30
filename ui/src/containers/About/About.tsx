@@ -1,8 +1,8 @@
-import HowItWorksCard from "./sections/HowItWorksCard";
-import CollapsibleSection from "../../components/CollapsibleSection/CollapsibleSection";
+import { HowItWorksCard } from "./sections";
+import UndrawSignUp from "../../assets/svg/undraw_sign_up.svg";
 import FindEventsSvg from "../../assets/svg/undraw_search.svg";
 import CreditCardSvg from "../../assets/svg/undraw_credit_card.svg";
-import UndrawSignUp from "../../assets/svg/undraw_sign_up.svg";
+import CollapsibleSection from "../../components/CollapsibleSection/CollapsibleSection";
 
 import "./About.scss";
 
@@ -10,7 +10,7 @@ export function About() {
 	return (
 		<div id="about" className="section">
 			<CollapsibleSection id={0} title="How it works for buyers" initialExpanded={true}>
-				<div id="how-it-works-section">
+				<div className="how-it-works-section">
 					<HowItWorksCard
 						imgUrl={FindEventsSvg}
 						title="Search for Events"
@@ -29,7 +29,7 @@ export function About() {
 				</div>
 			</CollapsibleSection>
 			<CollapsibleSection id={1} title="How it works for sellers" initialExpanded={false}>
-				<div id="how-it-works-section">
+				<div className="how-it-works-section">
 					<HowItWorksCard
 						imgUrl={FindEventsSvg}
 						title="Create Event"

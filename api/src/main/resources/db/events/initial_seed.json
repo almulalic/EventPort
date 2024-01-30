@@ -10,11 +10,9 @@
     "likedBy": [],
     "name": "Music Festival",
     "participants": [],
-    "registrationDeadline": {
-      "$date": "2024-01-27T23:59:59Z"
-    },
-    "status": "ACTIVE",
-    "category": "Music and Instruments",
+    "categories": [
+      "Music and Instruments"
+    ],
     "geoLocation": {
       "iso2Code": "RS",
       "country": "Serbia",
@@ -33,13 +31,11 @@
         "description": "Exclusive VIP area access",
         "price": 100.00,
         "currency": "EUR",
-        "options": [
-          "Front Row Seating",
-          "Backstage Access"
-        ]
+        "quantity": 500
       }
     ],
-    "googleMapsLink": "https://www.google.com/maps?q=Central+Park,Belgrade,Serbia"
+    "googleMapsURL": "https://www.google.com/maps?q=Central+Park,Belgrade,Serbia",
+    "createdBy": "65abb3b4d3d66e3164854f3f"
   },
   {
     "bannerImageURL": "https://source.unsplash.com/800x600/?tech",
@@ -52,11 +48,9 @@
     "likedBy": [],
     "name": "Tech Conference",
     "participants": [],
-    "registrationDeadline": {
-      "$date": "2024-01-25T23:59:59Z"
-    },
-    "status": "ACTIVE",
-    "category": "Computers and Accessories",
+    "categories": [
+      "Computers and Accessories"
+    ],
     "geoLocation": {
       "iso2Code": "SI",
       "country": "Slovenia",
@@ -68,12 +62,11 @@
         "description": "Access to conference sessions",
         "price": 50.00,
         "currency": "EUR",
-        "options": [
-          "Networking Lunch"
-        ]
+        "quantity": 300
       }
     ],
-    "googleMapsLink": "https://www.google.com/maps?q=Tech+Center,Ljubljana,Slovenia"
+    "googleMapsURL": "https://www.google.com/maps?q=Tech+Center,Ljubljana,Slovenia",
+    "createdBy": "65abb3b4d3d66e3164854f3f"
   },
   {
     "bannerImageURL": "https://source.unsplash.com/800x600/?food",
@@ -86,11 +79,9 @@
     "likedBy": [],
     "name": "Food Festival",
     "participants": [],
-    "registrationDeadline": {
-      "$date": "2024-02-28T23:59:59Z"
-    },
-    "status": "ACTIVE",
-    "category": "Food and Grocery",
+    "categories": [
+      "Food and Grocery"
+    ],
     "geoLocation": {
       "iso2Code": "BG",
       "country": "Bulgaria",
@@ -102,13 +93,11 @@
         "description": "Sample dishes from participating vendors",
         "price": 40.00,
         "currency": "EUR",
-        "options": [
-          "Vegetarian Option",
-          "Dessert Tasting"
-        ]
+        "quantity": 400
       }
     ],
-    "googleMapsLink": "https://www.google.com/maps?q=Downtown+Square,Sofia,Bulgaria"
+    "googleMapsURL": "https://www.google.com/maps?q=Downtown+Square,Sofia,Bulgaria",
+    "createdBy": "65abb3b4d3d66e3164854f3f"
   },
   {
     "bannerImageURL": "https://source.unsplash.com/800x600/?fitness",
@@ -121,11 +110,9 @@
     "likedBy": [],
     "name": "Fitness Challenge",
     "participants": [],
-    "registrationDeadline": {
-      "$date": "2024-04-10T23:59:59Z"
-    },
-    "status": "ACTIVE",
-    "category": "Fitness and Wellness",
+    "categories": [
+      "Fitness and Wellness"
+    ],
     "geoLocation": {
       "iso2Code": "HR",
       "country": "Croatia",
@@ -137,13 +124,11 @@
         "description": "Participate in the fitness challenge",
         "price": 25.00,
         "currency": "EUR",
-        "options": [
-          "5K Run",
-          "Obstacle Course"
-        ]
+        "quantity": 200
       }
     ],
-    "googleMapsLink": "https://www.google.com/maps?q=City+Park,Zagreb,Croatia"
+    "googleMapsURL": "https://www.google.com/maps?q=City+Park,Zagreb,Croatia",
+    "createdBy": "65abb3b4d3d66e3164854f3f"
   },
   {
     "bannerImageURL": "https://source.unsplash.com/800x600/?art",
@@ -156,11 +141,9 @@
     "likedBy": [],
     "name": "Art Exhibition",
     "participants": [],
-    "registrationDeadline": {
-      "$date": "2024-05-05T23:59:59Z"
-    },
-    "status": "ACTIVE",
-    "category": "Art and Collectibles",
+    "categories": [
+      "Art and Collectibles"
+    ],
     "geoLocation": {
       "iso2Code": "MK",
       "country": "North Macedonia",
@@ -172,10 +155,11 @@
         "description": "Admission to the art exhibition",
         "price": 20.00,
         "currency": "EUR",
-        "options": []
+        "quantity": 150
       }
     ],
-    "googleMapsLink": "https://www.google.com/maps?q=Art+Gallery,Skopje,North+Macedonia"
+    "googleMapsURL": "https://www.google.com/maps?q=Art+Gallery,Skopje,North+Macedonia",
+    "createdBy": "65abb3b4d3d66e3164854f3f"
   },
   {
     "bannerImageURL": "https://source.unsplash.com/800x600/?science",
@@ -188,11 +172,9 @@
     "likedBy": [],
     "name": "Science Fair",
     "participants": [],
-    "registrationDeadline": {
-      "$date": "2024-05-30T23:59:59Z"
-    },
-    "status": "ACTIVE",
-    "category": "Books and Literature",
+    "categories": [
+      "Books and Literature"
+    ],
     "geoLocation": {
       "iso2Code": "AL",
       "country": "Albania",
@@ -204,12 +186,11 @@
         "description": "Access to science exhibits and presentations",
         "price": 35.00,
         "currency": "EUR",
-        "options": [
-          "Interactive Workshops"
-        ]
+        "quantity": 250
       }
     ],
-    "googleMapsLink": "https://www.google.com/maps?q=Science+Center,Tirana,Albania"
+    "googleMapsURL": "https://www.google.com/maps?q=Science+Center,Tirana,Albania",
+    "createdBy": "65abb3b4d3d66e3164854f3f"
   },
   {
     "bannerImageURL": "https://source.unsplash.com/800x600/?film",
@@ -222,11 +203,9 @@
     "likedBy": [],
     "name": "Film Festival",
     "participants": [],
-    "registrationDeadline": {
-      "$date": "2024-06-30T23:59:59Z"
-    },
-    "status": "ACTIVE",
-    "category": "Movies and Entertainment",
+    "categories": [
+      "Movies and Entertainment"
+    ],
     "geoLocation": {
       "iso2Code": "ME",
       "country": "Montenegro",
@@ -238,12 +217,11 @@
         "description": "Access to film screenings",
         "price": 45.00,
         "currency": "EUR",
-        "options": [
-          "VIP Seating"
-        ]
+        "quantity": 350
       }
     ],
-    "googleMapsLink": "https://www.google.com/maps?q=Cinema+Plaza,Podgorica,Montenegro"
+    "googleMapsURL": "https://www.google.com/maps?q=Cinema+Plaza,Podgorica,Montenegro",
+    "createdBy": "65abb3b4d3d66e3164854f3f"
   },
   {
     "bannerImageURL": "https://source.unsplash.com/800x600/?gaming",
@@ -256,11 +234,9 @@
     "likedBy": [],
     "name": "Gaming Expo",
     "participants": [],
-    "registrationDeadline": {
-      "$date": "2024-08-15T23:59:59Z"
-    },
-    "status": "ACTIVE",
-    "category": "Toys and Games",
+    "categories": [
+      "Toys and Games"
+    ],
     "geoLocation": {
       "iso2Code": "RO",
       "country": "Romania",
@@ -272,12 +248,11 @@
         "description": "Access to gaming exhibits and competitions",
         "price": 40.00,
         "currency": "EUR",
-        "options": [
-          "Cosplay Contest"
-        ]
+        "quantity": 300
       }
     ],
-    "googleMapsLink": "https://www.google.com/maps?q=Gaming+Center,Bucharest,Romania"
+    "googleMapsURL": "https://www.google.com/maps?q=Gaming+Center,Bucharest,Romania",
+    "createdBy": "65abb3b4d3d66e3164854f3f"
   },
   {
     "bannerImageURL": "https://source.unsplash.com/800x600/?fashion",
@@ -290,11 +265,9 @@
     "likedBy": [],
     "name": "Fashion Show",
     "participants": [],
-    "registrationDeadline": {
-      "$date": "2024-09-10T23:59:59Z"
-    },
-    "status": "ACTIVE",
-    "category": "Clothing and Apparel",
+    "categories": [
+      "Clothing and Apparel"
+    ],
     "geoLocation": {
       "iso2Code": "BA",
       "country": "Bosnia and Herzegovina",
@@ -306,12 +279,11 @@
         "description": "Reserved seat for the fashion show",
         "price": 55.00,
         "currency": "EUR",
-        "options": [
-          "VIP Seating"
-        ]
+        "quantity": 200
       }
     ],
-    "googleMapsLink": "https://www.google.com/maps?q=Fashion+Hall,Sarajevo,Bosnia+and+Herzegovina"
+    "googleMapsURL": "https://www.google.com/maps?q=Fashion+Hall,Sarajevo,Bosnia+and+Herzegovina",
+    "createdBy": "65abb3b4d3d66e3164854f3f"
   },
   {
     "bannerImageURL": "https://source.unsplash.com/800x600/?nature",
@@ -324,11 +296,9 @@
     "likedBy": [],
     "name": "Environmental Summit",
     "participants": [],
-    "registrationDeadline": {
-      "$date": "2024-10-20T23:59:59Z"
-    },
-    "status": "ACTIVE",
-    "category": "Home and Garden",
+    "categories": [
+      "Home and Garden"
+    ],
     "geoLocation": {
       "iso2Code": "XK",
       "country": "Kosovo",
@@ -340,11 +310,10 @@
         "description": "Access to environmental discussions",
         "price": 25.00,
         "currency": "EUR",
-        "options": [
-          "Networking Session"
-        ]
+        "quantity": 150
       }
     ],
-    "googleMapsLink": "https://www.google.com/maps?q=Environmental+Center,Pristina,Kosovo"
+    "googleMapsURL": "https://www.google.com/maps?q=Environmental+Center,Pristina,Kosovo",
+    "createdBy": "65abb3b4d3d66e3164854f3f"
   }
 ]

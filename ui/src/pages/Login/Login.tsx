@@ -2,7 +2,7 @@ import { useState } from "react";
 import { AxiosResponse } from "axios";
 import Link from "antd/es/typography/Link";
 import { useNavigate } from "react-router-dom";
-import { AuthService } from "../../services/Auth";
+import { AuthAPIService } from "../../api/services";
 import { AppDispatch, RootState } from "../../store";
 import { useDispatch, useSelector } from "react-redux";
 import { Alert, Button, Checkbox, Form, Input } from "antd";
@@ -17,7 +17,7 @@ export type LoginFormData = {
 	rememberMe: boolean;
 };
 
-export default function Login() {
+export function Login() {
 	const { loading } = useSelector((state: RootState) => state.auth);
 	const [loginResponse, setLoginResponse] = useState("");
 
@@ -27,8 +27,7 @@ export default function Login() {
 	const onFinish = async (data: LoginFormData) => {
 		dispatch(login_attempt());
 
-		let response: AxiosResponse = await AuthService.login(data.email, data.password, data.rememberMe);
-		console.log(response);
+		let response: AxiosResponse = await AuthAPIService.login(data.email, data.password, data.rememberMe);
 
 		if (response.status == 200) {
 			dispatch(login_sucessfull(response.data));
@@ -70,14 +69,7 @@ export default function Login() {
 						<div className="line"></div>
 					</div>
 
-					<Form
-						name="login-form"
-						initialValues={{ remember: true }}
-						layout="vertical"
-						onFinish={onFinish}
-						autoComplete="off"
-						requiredMark={false}
-					>
+					<Form name="login-form" layout="vertical" onFinish={onFinish} autoComplete="off" requiredMark={false}>
 						<Form.Item
 							label="Enter your email address"
 							name="email"
@@ -98,9 +90,11 @@ export default function Login() {
 						>
 							<Input.Password placeholder="•••••••••••••••••••••••" disabled={loading} />
 						</Form.Item>
-						<Form.Item>
+						<Form.Item name="rememberMe" initialValue={true}>
 							<div className="login-form-additional-options">
-								<Checkbox disabled={loading}>Remember me</Checkbox>
+								<Checkbox name="rememberMe" checked disabled={loading}>
+									Remember me
+								</Checkbox>
 								<Link disabled={loading}>Forgot your password?</Link>
 							</div>
 						</Form.Item>

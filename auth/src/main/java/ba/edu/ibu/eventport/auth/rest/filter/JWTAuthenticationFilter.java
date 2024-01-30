@@ -3,6 +3,9 @@ package ba.edu.ibu.eventport.auth.rest.filter;
 import ba.edu.ibu.eventport.auth.core.service.JWTService;
 import ba.edu.ibu.eventport.auth.core.service.UserService;
 import com.mongodb.lang.NonNull;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -44,9 +47,15 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
       return;
     }
 
-    jwt = authHeader.substring(7);
-    userEmail = jwtService.extractUserName(jwt);
-
+    try {
+      jwt = authHeader.substring(7);
+      userEmail = jwtService.extractUserName(jwt);
+    } catch (ExpiredJwtException ex) {
+      response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+      response.getWriter().write("JWT Expired!");
+      return;
+    }
+    
     if (StringUtils.isNotEmpty(userEmail) && SecurityContextHolder.getContext().getAuthentication() == null) {
       UserDetails userDetails = userService.userDetailsService().loadUserByUsername(userEmail);
 

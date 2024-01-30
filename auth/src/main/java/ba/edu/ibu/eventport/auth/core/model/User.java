@@ -1,11 +1,14 @@
 package ba.edu.ibu.eventport.auth.core.model;
 
-import ba.edu.ibu.eventport.auth.core.model.enums.UserType;
+import ba.edu.ibu.eventport.auth.core.model.enums.AuthType;
+import ba.edu.ibu.eventport.auth.core.model.enums.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mongodb.lang.NonNull;
 import jakarta.validation.constraints.NotEmpty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
-import ba.edu.ibu.eventport.auth.core.model.enums.AuthType;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -15,48 +18,68 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Model class representing a user.
+ */
 @Document
+@Data
+@NoArgsConstructor(force = true)
+@AllArgsConstructor
 public class User implements UserDetails {
+
+  /**
+   * Unique identifier for the user.
+   */
   @Id
   private String id;
+
+  /**
+   * List of roles assigned to the user.
+   */
   @NonNull
-  private UserType userType;
+  private List<Role> assignedRoles;
+
+  /**
+   * The authentication type of the user.
+   */
   private AuthType authType;
+
+  /**
+   * The first name of the user.
+   */
   private String firstName;
+
+  /**
+   * The last name of the user.
+   */
   private String lastName;
+
+  /**
+   * The username of the user.
+   */
   private String username;
+
+  /**
+   * The email address of the user.
+   */
   private String email;
+
+  /**
+   * The display name of the user.
+   */
   private String displayName;
+
+  /**
+   * The password of the user.
+   */
   @NotEmpty
   @JsonIgnore
   private String password;
+
+  /**
+   * The creation date of the user account.
+   */
   private Date creationDate;
-
-  public User() {
-  }
-
-  public User(
-    String id,
-    UserType userType,
-    AuthType authType,
-    String firstName,
-    String lastName,
-    String email,
-    String displayName,
-    String password,
-    Date creationDate
-  ) {
-    this.id = id;
-    this.userType = userType;
-    this.authType = authType;
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.username = email;
-    this.email = email;
-    this.displayName = displayName;
-    this.password = password;
-    this.creationDate = creationDate;
-  }
 
   @Override
   public boolean isAccountNonExpired() {
@@ -80,83 +103,6 @@ public class User implements UserDetails {
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    return List.of(new SimpleGrantedAuthority(userType.name()));
-  }
-
-  public String getId() {
-    return id;
-  }
-
-  public void setId(String id) {
-    this.id = id;
-  }
-
-  public UserType getUserType() {
-    return userType;
-  }
-
-  public void setUserType(UserType userType) {
-    this.userType = userType;
-  }
-
-  public AuthType getAuthType() {
-    return authType;
-  }
-
-  public void setAuthType(AuthType authType) {
-    this.authType = authType;
-  }
-
-  public String getFirstName() {
-    return firstName;
-  }
-
-  public void setFirstName(String firstName) {
-    this.firstName = firstName;
-  }
-
-  public String getLastName() {
-    return lastName;
-  }
-
-  public void setLastName(String lastName) {
-    this.lastName = lastName;
-  }
-
-  public String getEmail() {
-    return email;
-  }
-
-  public void setEmail(String email) {
-    this.email = email;
-  }
-
-  public String getDisplayName() {
-    return displayName;
-  }
-
-  public void setDisplayName(String displayName) {
-    this.displayName = displayName;
-  }
-
-  public String getPassword() {
-    return password;
-  }
-
-  @Override
-  public String getUsername() {
-    return email;
-  }
-
-  public void setPassword(String password) {
-    this.password = password;
-  }
-
-  public Date getCreationDate() {
-    return creationDate;
-  }
-
-  public void setCreationDate(Date creationDate) {
-    this.creationDate = creationDate;
+    return assignedRoles.stream().map(role -> new SimpleGrantedAuthority(role.name())).toList();
   }
 }

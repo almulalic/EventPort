@@ -1,12 +1,12 @@
 package ba.edu.ibu.eventport.api.rest.configurations.security;
 
-import ba.edu.ibu.eventport.api.rest.configurations.security.JwtAuthenticationProvider;
 import ba.edu.ibu.eventport.api.rest.filters.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -31,13 +31,19 @@ public class SecurityConfiguration {
 
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-    return http.csrf(AbstractHttpConfigurer::disable)
+    return http
+             .cors(Customizer.withDefaults())
              .authorizeHttpRequests(request -> request
-                                                 .requestMatchers(HttpMethod.OPTIONS).permitAll()
-                                                 .requestMatchers("/api/event/*/ticket/**").authenticated()
-                                                 .requestMatchers("/api/event/user/**").authenticated()
-                                                 .anyRequest().permitAll()
+                                                 .requestMatchers(HttpMethod.OPTIONS)
+                                                 .permitAll()
+                                                 .requestMatchers(HttpMethod.GET, "/api/event/**")
+                                                 .permitAll()
+                                                 .requestMatchers(HttpMethod.GET, "/api/metadata/**")
+                                                 .permitAll()
+                                                 .anyRequest()
+                                                 .authenticated()
              )
+             .csrf(AbstractHttpConfigurer::disable)
              .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
              .authenticationProvider(authenticationProvider())
              .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)

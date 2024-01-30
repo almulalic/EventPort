@@ -1,5 +1,3 @@
-require("file-loader?name=[name].[ext]!./public/index.html");
-
 import App from "./App";
 import React from "react";
 import store from "./store";

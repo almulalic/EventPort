@@ -45,11 +45,19 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     jwt = authHeader.substring(7);
 
-    userEmail = jwtService.extractUserName(jwt);
+    try {
+      userEmail = jwtService.extractUserName(jwt);
+    } catch (ExpiredJwtException ex) {
+      response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+      response.getWriter().write("JWT Expired!");
+      return;
+    }
 
     if (StringUtils.isNotEmpty(userEmail) && SecurityContextHolder.getContext().getAuthentication() == null) {
       Claims claims = jwtService.extractAllClaims(jwt);
-      request.setAttribute("user", User.fromJwt(claims));
+      User user = User.fromJwt(claims);
+      request.setAttribute("user", user);
+
 
       if (jwtService.isTokenValid(jwt)) {
         SecurityContext context = SecurityContextHolder.createEmptyContext();
@@ -57,7 +65,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
           claims.getSubject(),
           null,
-          null
+          user.getAuthorities()
         );
 
         authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

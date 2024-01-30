@@ -133,7 +133,7 @@
 		stroke-width: 2;
 		stroke: white;
 		stroke-miterlimit: 10;
-		box-shadow: inset 0px 0px 0px coral;
+		box-shadow: inset 0px 0px 0px tomato;
 		animation: fillCross 0.4s ease-in-out 0.4s forwards, scaleCross 0.3s ease-in-out 0.9s both;
 	}
 
@@ -142,7 +142,7 @@
 		stroke-dashoffset: 166;
 		stroke-width: 2;
 		stroke-miterlimit: 10;
-		stroke: coral;
+		stroke: tomato;
 		fill: none;
 		animation: strokeCross 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
 	}
@@ -172,7 +172,7 @@
 
 	@keyframes fillCross {
 		100% {
-			box-shadow: inset 0px 0px 0px 30px coral;
+			box-shadow: inset 0px 0px 0px 30px tomato;
 		}
 	}
 }

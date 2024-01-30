@@ -1,11 +1,13 @@
 import { DateTime } from "luxon";
-import { Button, Modal } from "antd";
-import { Event } from "../../models/Event";
-import { TicketType } from "../../models/TicketType";
+import { Button, Modal, message } from "antd";
+import { Event } from "../../api/models/event/Event";
+import { TicketType } from "../../api/models/ticket/TicketType";
 import { createSearchParams, useNavigate } from "react-router-dom";
 import { ClockCircleFilled, EnvironmentFilled, LikeFilled, UserOutlined } from "@ant-design/icons";
 
 import "./EventModal.scss";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
 
 export interface EventModalProps {
 	event: Event;
@@ -15,8 +17,15 @@ export interface EventModalProps {
 
 export default function EventModal({ event, isModalOpen, handleCancel }: EventModalProps) {
 	const navigate = useNavigate();
+	const [messageApi, contextHolder] = message.useMessage();
+
+	const { isLoggedIn, userInfo } = useSelector((state: RootState) => state.auth);
+	const isAttendingEvent: boolean = event.participants.filter((x) => x.userId == userInfo?.id).length > 0;
 
 	const renderTicketType = (ticketType: TicketType, i: number) => {
+		const soldTickets: number = event.participants.filter((x) => x.ticketType === ticketType.name).length;
+		const isSoldOut: boolean = soldTickets === ticketType.quantity;
+
 		return (
 			<div className="event-modal-ticket" key={i}>
 				<div className="event-modal-ticket-title-container">
@@ -25,20 +34,30 @@ export default function EventModal({ event, isModalOpen, handleCancel }: EventMo
 						{ticketType.price} {ticketType.currency}
 					</div>
 				</div>
-				<div className="event-modal-ticket-description">{ticketType.description}</div>
+				<div className="event-modal-ticket-description-container">
+					<div className="event-modal-ticket-description">{ticketType.description}</div>
+					<div className="event-modal-ticket-description">
+						{soldTickets}/{ticketType.quantity}
+					</div>
+				</div>
 				<Button
 					size="large"
-					onClick={() =>
-						navigate({
-							pathname: "/payment/process",
-							search: `?${createSearchParams({
-								eventId: event.id,
-								ticketName: ticketType.name,
-							})}`,
-						})
-					}
+					disabled={isSoldOut}
+					onClick={() => {
+						isLoggedIn
+							? isAttendingEvent
+								? messageApi.warning("You are alraedy attending this event!")
+								: navigate({
+										pathname: "/payment/process",
+										search: `?${createSearchParams({
+											eventId: event.id,
+											ticketName: ticketType.name,
+										})}`,
+								  })
+							: messageApi.error("You have to be logged in order to buy tickets!");
+					}}
 				>
-					Buy
+					{isSoldOut ? "Sold Out" : "Buy"}
 				</Button>
 			</div>
 		);
@@ -69,7 +88,7 @@ export default function EventModal({ event, isModalOpen, handleCancel }: EventMo
 								<EnvironmentFilled />
 							</span>
 							<span className="event-modal-label-name event-modal-label-link">
-								<a target="_blank" href={event.googleMapsLink}>
+								<a target="_blank" href={event.googleMapsURL}>
 									{event.geoLocation.country},{event.geoLocation.city} @ {event.venue}
 								</a>
 							</span>
@@ -108,6 +127,7 @@ export default function EventModal({ event, isModalOpen, handleCancel }: EventMo
 				</div>
 				<hr />
 			</div>
+			{contextHolder}
 		</Modal>
 	);
 }

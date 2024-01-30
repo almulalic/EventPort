@@ -1,6 +1,5 @@
-import { flatMap } from "lodash";
-import { createSlice } from "@reduxjs/toolkit";
 import dayjs from "dayjs";
+import { createSlice } from "@reduxjs/toolkit";
 import { cascaderOptionsToURI } from "../utils/utils";
 
 interface OrderDropdownItem<T> {
@@ -8,21 +7,21 @@ interface OrderDropdownItem<T> {
 	label: string;
 }
 
-export const ORDER_BY_OPTIONS: OrderDropdownItem<string>[] = [
+export const SORT_OPTIONS: OrderDropdownItem<string>[] = [
 	{
-		value: "1",
+		value: "price,desc",
 		label: "Price (DESC)",
 	},
 	{
-		value: "2",
+		value: "price,asc",
 		label: "Price (ASC)",
 	},
 	{
-		value: "3",
+		value: "likedBy.count,desc",
 		label: "Likes (DESC)",
 	},
 	{
-		value: "4",
+		value: "likedBy.count,asc",
 		label: "Likes (ASC)",
 	},
 ];
@@ -47,7 +46,7 @@ export const PAGE_SIZE_OPTIONS: OrderDropdownItem<number>[] = [
 ];
 
 export interface EventFilterState {
-	isLoading: boolean;
+	filtersLoading: boolean;
 	geolocationCities: any[];
 	geolocationCountries: any[];
 	geolocationCitiesURI: string;
@@ -56,12 +55,13 @@ export interface EventFilterState {
 	categoriesURI: string;
 	startDate: string;
 	endDate: string;
-	order: string;
+	currentPage: number;
 	pageSize: number;
+	sort: string;
 }
 
 const initialState: EventFilterState = {
-	isLoading: true,
+	filtersLoading: true,
 	geolocationCities: [],
 	geolocationCountries: [],
 	geolocationCitiesURI: "",
@@ -70,7 +70,8 @@ const initialState: EventFilterState = {
 	categoriesURI: "",
 	startDate: dayjs().hour(8).minute(0).toISOString(),
 	endDate: dayjs().add(1, "year").toISOString(),
-	order: ORDER_BY_OPTIONS[0].value,
+	currentPage: 0,
+	sort: SORT_OPTIONS[0].value,
 	pageSize: PAGE_SIZE_OPTIONS[0].value,
 };
 
@@ -78,11 +79,14 @@ const eventFilterSlice = createSlice({
 	name: "eventFilter",
 	initialState,
 	reducers: {
-		set_loading: (state) => {
-			state.isLoading = true;
+		set_filters_loading: (state) => {
+			state.filtersLoading = true;
 		},
-		set_loaded: (state) => {
-			state.isLoading = false;
+		set_filters_loaded: (state) => {
+			state.filtersLoading = false;
+		},
+		change_current_page: (state, data) => {
+			state.currentPage = data.payload;
 		},
 		page_size_change: (state, data) => {
 			state.pageSize = data.payload;
@@ -93,7 +97,6 @@ const eventFilterSlice = createSlice({
 
 			state.geolocationCities = data.payload.filter((x: any[]) => x.length > 1);
 			state.geolocationCitiesURI = cascaderOptionsToURI(state.geolocationCities);
-			console.log(state.geolocationCountries, state.geolocationCities, data.payload);
 		},
 		category_change: (state, data) => {
 			state.categories = data.payload;
@@ -107,14 +110,15 @@ const eventFilterSlice = createSlice({
 			state.endDate = data.payload.endDate;
 		},
 		order_change: (state, data) => {
-			state.order = data.payload.order;
+			state.sort = data.payload.sort;
 		},
 	},
 });
 
 export const {
-	set_loading,
-	set_loaded,
+	set_filters_loading,
+	set_filters_loaded,
+	change_current_page,
 	page_size_change,
 	geolocation_change,
 	category_change,

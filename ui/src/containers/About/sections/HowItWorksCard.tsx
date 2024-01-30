@@ -7,7 +7,7 @@ export interface HowItWorksCardProps {
 	description: string;
 }
 
-export default function HowItWorksCard(props: HowItWorksCardProps) {
+export function HowItWorksCard(props: HowItWorksCardProps) {
 	return (
 		<div className="how-it-works-card">
 			<img className="how-it-works-img" src={props.imgUrl} />

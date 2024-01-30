@@ -6,7 +6,7 @@ import { Button, Cascader, DatePicker, Flex, Input } from "antd";
 import { createSearchParams, useNavigate } from "react-router-dom";
 
 import "./LandingFilter.scss";
-import { MetadatService } from "../../services/MetadataService";
+import { MetadatService } from "../../api/services";
 
 const { RangePicker } = DatePicker;
 const DATE_TIME_FORMAT = "YYYY-MM-DD HH";
@@ -14,7 +14,7 @@ const DATE_TIME_FORMAT = "YYYY-MM-DD HH";
 export const LandingFilter = () => {
 	const navigate = useNavigate();
 
-	const [isLoading, setLoading] = useState(false);
+	const [isLoading, _] = useState(false);
 	const [searchText, setSearchText] = useState("");
 
 	const [availableCategories, setAvailableCategories] = useState({
@@ -81,46 +81,46 @@ export const LandingFilter = () => {
 	};
 
 	return (
-		<div className="LandingFilter">
-			<div className="LandingFilter-Card">
-				<Flex vertical gap="middle" justify="center" align="start">
-					<Input
-						className="LandingFilter-Search"
-						placeholder="Find events by name, venue, city..."
+		<div className="landing-filter">
+			<div className="landing-filter-card">
+				<Input
+					className="landing-filter-search"
+					placeholder="Find events by name, venue, city..."
+					size="large"
+					value={searchText}
+					allowClear
+					onChange={onSearchChange}
+					prefix={<SearchOutlined />}
+					disabled={isLoading}
+				/>
+
+				<div className="landing-filter-options">
+					<Cascader
+						className="landing-filter-category-cascader"
+						options={availableCategories.options}
+						onChange={onCategoryChange}
+						multiple
+						maxTagCount={5}
+						placeholder="Select categories..."
+						loading={isLoading}
 						size="large"
-						value={searchText}
-						allowClear
-						onChange={onSearchChange}
-						prefix={<SearchOutlined />}
-						disabled={isLoading}
 					/>
+					<RangePicker
+						className="landing-filter-date-picker"
+						showTime={{ format: "HH" }}
+						format={DATE_TIME_FORMAT}
+						defaultValue={[datePickerState.startDate, datePickerState.endDate]}
+						allowEmpty={[true, true]}
+						separator="to"
+						onChange={onDateRangeChange}
+						size="large"
+					/>
+				</div>
 
-					<Flex gap="middle" justify="center" align="start" style={{ width: "100%" }}>
-						<Cascader
-							className="CategoryCascader"
-							options={availableCategories.options}
-							onChange={onCategoryChange}
-							multiple
-							maxTagCount={5}
-							placeholder="Select categories..."
-							loading={isLoading}
-						/>
-
-						<RangePicker
-							showTime={{ format: "HH" }}
-							format={DATE_TIME_FORMAT}
-							defaultValue={[datePickerState.startDate, datePickerState.endDate]}
-							allowEmpty={[true, true]}
-							separator="to"
-							onChange={onDateRangeChange}
-						/>
-					</Flex>
-
-					<Flex className="search-button-container" gap="middle" justify="center" align="start">
-						<Button className="search-button" type="primary" shape="default" onClick={onFilterSubmit}>
-							Search
-						</Button>
-					</Flex>
+				<Flex className="search-button-container" gap="middle" justify="center" align="start">
+					<Button className="search-button" type="primary" size="large" shape="default" onClick={onFilterSubmit}>
+						Search
+					</Button>
 				</Flex>
 			</div>
 		</div>
